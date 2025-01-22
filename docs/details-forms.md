@@ -34,15 +34,15 @@ This document outlines the implementation of a reusable details modal system for
 
 Each data lens follows the same modular structure and shares common components and utilities. The implementation should maximize code reuse across different entity types.
 
-Location: `components/containers/profile-detail/components/[entity-type]-details/`
+Location: `components/thegrid-ui/details/[entity-type]`
 
 Data Lenses Types:
 
-- Profile Information
-- Products
-- Assets
-- Entities
-- Socials
+- Profile Information (profileInfo)
+- Products (product)
+- Assets (asset)
+- Entities (entity)
+- Socials (social)
 
 Common Component Structure (per lens):
 

@@ -1,16 +1,4 @@
-import { createContext, useContext } from 'react';
-
-export type User = {
-  id: string;
-  email: string;
-  accessKey: string;
-};
-
-export type UserContextType = {
-  user: User | null;
-};
-
-export const UserContext = createContext<UserContextType>({ user: null });
+import { useClerkContext } from '@/providers/clerk-provider';
 
 const API_ENDPOINT =
   'https://a2f6zzrqop62jwep7ehq53nn2m0rkwqq.lambda-url.eu-central-1.on.aws/';
@@ -164,11 +152,11 @@ export const createRestApiClient = (
 };
 
 export const useRestApiClient = () => {
-  const { user } = useContext(UserContext);
+  const { userMetadata, token } = useClerkContext();
 
-  if (!user?.id || !user?.email || !user?.accessKey) {
-    throw new Error('User context is required for API client');
+  if (!userMetadata?.id || !userMetadata?.email || !token) {
+    throw new Error('User must be authenticated to use the API client');
   }
 
-  return createRestApiClient(user.id, user.email, user.accessKey);
+  return createRestApiClient(userMetadata.id, userMetadata.email, token);
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { ProductForm } from '@/components/thegrid-ui/forms/product-form';
+import { ProductForm } from '@/components/thegrid-ui/details/product/product-form';
 
 export default function Page() {
   return (

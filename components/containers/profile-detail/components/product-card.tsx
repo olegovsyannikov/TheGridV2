@@ -1,21 +1,23 @@
 'use client';
 
-import { paths } from '@/lib/routes/paths';
-import { ProfileDataCard, ProfileDataCardProps } from './profile-data-card';
-import { Package } from 'lucide-react';
-import { DeepLinkBadge } from '@/components/ui/deep-link-badge';
-import { InlineDataPoint } from './inline-data-point';
-import Link from 'next/link';
-import { CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import {
   extractUrls,
   UrlTypeIconLinks
 } from '@/components/containers/url-type-icon/url-type-icon-list';
+import { ProductDetails } from '@/components/thegrid-ui/details/product/product-details';
 import { Badge } from '@/components/ui/badge';
-import { ContractAddressesBadge } from './contract-address-badge';
-import { FragmentType, graphql, useFragment } from '@/lib/graphql/generated';
+import { Button } from '@/components/ui/button';
+import { CardTitle } from '@/components/ui/card';
 import { CollapsibleList } from '@/components/ui/collapsible-list';
+import { DeepLinkBadge } from '@/components/ui/deep-link-badge';
+import { Separator } from '@/components/ui/separator';
+import { FragmentType, graphql, useFragment } from '@/lib/graphql/generated';
+import { paths } from '@/lib/routes/paths';
+import { Edit, Package } from 'lucide-react';
+import Link from 'next/link';
+import { ContractAddressesBadge } from './contract-address-badge';
+import { InlineDataPoint } from './inline-data-point';
+import { ProfileDataCard, ProfileDataCardProps } from './profile-data-card';
 
 export const ProductFragment = graphql(`
   fragment ProductFieldsFragment on CProducts {
@@ -130,6 +132,21 @@ export const ProductCard = ({
               <UrlTypeIconLinks urls={[extractUrls(product.urls)]} />
             </>
           )}
+          <div className="ml-auto">
+            <ProductDetails
+              product={product}
+              trigger={
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  type="button"
+                  onClick={() => console.log('Edit button clicked')}
+                >
+                  <Edit className="h-4 w-4" />
+                </Button>
+              }
+            />
+          </div>
         </div>
       }
       description={product.description || 'No description available'}
