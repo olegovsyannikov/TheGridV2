@@ -11,7 +11,9 @@
     "graphql:compile": "graphql-codegen --config ./lib/graphql/codegen.ts",
     "graphql:watch": "graphql-codegen --config ./lib/graphql/codegen.ts -w",
     "shadcn": "pnpx shadcn-ui@latest add -y",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@clerk/nextjs": "4.29.9",
@@ -66,6 +68,9 @@
     "@graphql-codegen/typescript-generic-sdk": "^4.0.1",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@parcel/watcher": "^2.5.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20.16.5",
     "@types/react": "^18.3.6",
     "@types/react-dom": "^18.3.0",
@@ -73,10 +78,12 @@
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.3",
     "eslint-config-prettier": "^9.1.0",
+    "jest": "^29.7.0",
     "postcss": "^8.4.47",
     "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.11",
+    "ts-jest": "^29.2.5",
     "typescript": "^5.6.2"
   },
   "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
