@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { DetailsContainer } from '@/components/ui/details-container';
+import { useToast } from '@/components/ui/use-toast';
 import { ProductFieldsFragmentFragment } from '@/lib/graphql/generated/graphql';
 import { useRestApiClient } from '@/lib/rest-api/client';
 import { useEffect, useState } from 'react';
@@ -25,6 +26,7 @@ export function ProductDetails({
   const client = useRestApiClient();
   const { updateProduct, isUpdating } = useProductForm(client, product?.id);
   const [formRef, setFormRef] = useState<HTMLFormElement | null>(null);
+  const { toast } = useToast();
 
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = onOpenChange ?? setUncontrolledOpen;
@@ -51,13 +53,22 @@ export function ProductDetails({
       open={open}
       onOpenChange={handleOpenChange}
       footer={
-        <Button
-          type="submit"
-          disabled={isUpdating}
-          onClick={() => formRef?.requestSubmit()}
-        >
-          {isUpdating ? 'Saving...' : 'Save'}
-        </Button>
+        <div className="flex gap-2 justify-end">
+          <Button
+            variant="outline"
+            disabled={isUpdating}
+            onClick={() => setOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            disabled={isUpdating}
+            onClick={() => formRef?.requestSubmit()}
+          >
+            {isUpdating ? 'Saving...' : product ? 'Save Changes' : 'Create Product'}
+          </Button>
+        </div>
       }
     >
       <ProductForm
@@ -68,6 +79,12 @@ export function ProductDetails({
           updateProduct(data, {
             onSuccess: () => {
               console.log('ProductDetails: update successful');
+              toast({
+                title: product ? 'Product Updated' : 'Product Created',
+                description: product
+                  ? 'The product has been updated successfully.'
+                  : 'The new product has been created successfully.'
+              });
               setOpen(false);
             }
           });
