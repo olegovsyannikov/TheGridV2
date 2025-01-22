@@ -43,14 +43,14 @@ describeif('ProductsApi Integration', () => {
     expect(response.results[0].error).toBeUndefined();
     expect(response.results[0].success).toBe(true);
     expect(response.results[0].create).toBeDefined();
-    expect(response.results[0].create.created_records).toBeDefined();
-    expect(response.results[0].create.created_records[0]).toBeDefined();
-    createdProductId = response.results[0].create.created_records[0];
+    expect(response.results[0].create?.created_records).toBeDefined();
+    expect(response.results[0].create?.created_records[0]).toBeDefined();
+    createdProductId = response.results[0].create!.created_records[0];
 
     console.log(
       `Created product with ID: ${createdProductId} by ${TEST_USER_EMAIL}`
     );
-  }, 10000);
+  });
 
   it('should update the product', async () => {
     expect(createdProductId).toBeDefined();
@@ -74,7 +74,7 @@ describeif('ProductsApi Integration', () => {
     expect(response.results[0].update).toBeDefined();
 
     console.log('Updated product:', response.results[0]);
-  }, 10000);
+  });
 
   it('should delete the product', async () => {
     expect(createdProductId).toBeDefined();
@@ -91,5 +91,5 @@ describeif('ProductsApi Integration', () => {
     console.log(
       `Deleted product with ID: ${createdProductId} by ${TEST_USER_EMAIL}`
     );
-  }, 10000);
+  });
 });

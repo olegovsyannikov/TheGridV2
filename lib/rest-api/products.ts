@@ -1,65 +1,23 @@
 import { CProducts } from '../graphql/generated/graphql';
-import { convertToStrings, CrudOperationPayload, DB_NAME } from './client';
+import { RestClient } from './client';
 
-export type CreateProductInput = Pick<
-  CProducts,
-  | 'name'
-  | 'description'
-  | 'rootId'
-  | 'isMainProduct'
-  | 'productTypeId'
-  | 'productStatusId'
-  | 'launchDate'
->;
-
-export type UpdateProductInput = Partial<CreateProductInput> & { id: string };
+export type CreateProductInput = Partial<CProducts>;
+export type UpdateProductInput = Partial<CProducts> & { id: string };
 
 const TABLE_NAME = 'products';
-const FROM = 'products';
 
-export const createProductsApi = (client: {
-  execute: (operations: CrudOperationPayload[]) => Promise<any>;
-}) => {
+export const createProductsApi = (client: RestClient) => {
   const create = async (input: CreateProductInput) => {
-    const operation: CrudOperationPayload = {
-      table_name: TABLE_NAME,
-      db_name: DB_NAME,
-      from: FROM,
-      create: {
-        list_of_values: [convertToStrings(input)]
-      }
-    };
-
-    return client.execute([operation]);
+    return client.create(TABLE_NAME, input);
   };
 
   const update = async (input: UpdateProductInput) => {
     const { id, ...data } = input;
-    const operation: CrudOperationPayload = {
-      table_name: TABLE_NAME,
-      db_name: DB_NAME,
-      from: FROM,
-      update: {
-        record_id_to_values: {
-          [id]: convertToStrings(data)
-        }
-      }
-    };
-
-    return client.execute([operation]);
+    return client.update(TABLE_NAME, id, data);
   };
 
   const remove = async (id: string) => {
-    const operation: CrudOperationPayload = {
-      table_name: TABLE_NAME,
-      db_name: DB_NAME,
-      from: FROM,
-      delete: {
-        record_ids_to_delete_list: [id]
-      }
-    };
-
-    return client.execute([operation]);
+    return client.delete(TABLE_NAME, id);
   };
 
   return {
@@ -69,8 +27,6 @@ export const createProductsApi = (client: {
   };
 };
 
-export const useProductsApi = (client: {
-  execute: (operations: CrudOperationPayload[]) => Promise<any>;
-}) => {
+export const useProductsApi = (client: RestClient) => {
   return createProductsApi(client);
 };

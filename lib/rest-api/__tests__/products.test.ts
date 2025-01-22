@@ -51,7 +51,8 @@ describe('ProductsApi', () => {
 
     const response = await api.create(testProduct);
     expect(response).toEqual(mockResponse);
-    createdProductId = response.results[0].create.created_records[0];
+    expect(response.results[0].create?.created_records[0]).toBeDefined();
+    createdProductId = response.results[0].create!.created_records[0];
 
     // Verify the request
     expect(mockFetch).toHaveBeenCalledWith(

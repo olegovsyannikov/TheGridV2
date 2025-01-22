@@ -17,40 +17,6 @@ const API_ENDPOINT =
 
 export const DB_NAME = 'A';
 
-export interface CreateOperation {
-  list_of_values: Record<string, string>[];
-}
-
-export interface UpdateOperation {
-  record_id_to_values: Record<string, Record<string, string>>;
-}
-
-export interface DeleteOperation {
-  record_ids_to_delete_list: string[];
-}
-
-export interface CrudOperationPayload {
-  table_name: string;
-  db_name: string;
-  from: string;
-  create?: CreateOperation;
-  update?: UpdateOperation;
-  delete?: DeleteOperation;
-}
-
-export interface CrudPayload {
-  command: string;
-  user: {
-    user_id: string;
-    user_email: string;
-    access_key: string;
-  };
-  batch: {
-    dry_run: boolean;
-    operations: CrudOperationPayload[];
-  };
-}
-
 // Convert all values to strings for API compatibility
 export const convertToStrings = (
   obj: Record<string, any>
@@ -66,13 +32,44 @@ export const convertToStrings = (
   return result;
 };
 
+export interface ApiOperationResult {
+  success: boolean;
+  error?: string;
+  create?: {
+    created_records: string[];
+  };
+  update?: Record<string, never>;
+  delete?: Record<string, never>;
+  table_name: string;
+  db_name: string;
+}
+
+export interface ApiResponse {
+  results: ApiOperationResult[];
+  dry_run: boolean;
+  do_not_notify_on_edit: boolean;
+}
+
+export interface RestClient {
+  create: <T extends Record<string, any>>(
+    tableName: string,
+    data: T
+  ) => Promise<ApiResponse>;
+  update: <T extends Record<string, any>>(
+    tableName: string,
+    id: string,
+    data: T
+  ) => Promise<ApiResponse>;
+  delete: (tableName: string, id: string) => Promise<ApiResponse>;
+}
+
 export const createRestApiClient = (
   userId: string,
   userEmail: string,
   accessKey: string
-) => {
-  const execute = async (operations: CrudOperationPayload[]) => {
-    const fullPayload: CrudPayload = {
+): RestClient => {
+  const executeRequest = async (operations: any[]): Promise<ApiResponse> => {
+    const fullPayload = {
       command: 'retool_backend_go/db.crud.direct',
       user: {
         user_id: userId,
@@ -108,7 +105,62 @@ export const createRestApiClient = (
     return data;
   };
 
-  return { execute };
+  const create = async <T extends Record<string, any>>(
+    tableName: string,
+    data: T
+  ): Promise<ApiResponse> => {
+    const operation = {
+      table_name: tableName,
+      db_name: DB_NAME,
+      from: tableName,
+      create: {
+        list_of_values: [convertToStrings(data)]
+      }
+    };
+
+    return executeRequest([operation]);
+  };
+
+  const update = async <T extends Record<string, any>>(
+    tableName: string,
+    id: string,
+    data: T
+  ): Promise<ApiResponse> => {
+    const operation = {
+      table_name: tableName,
+      db_name: DB_NAME,
+      from: tableName,
+      update: {
+        record_id_to_values: {
+          [id]: convertToStrings(data)
+        }
+      }
+    };
+
+    return executeRequest([operation]);
+  };
+
+  const remove = async (
+    tableName: string,
+    id: string
+  ): Promise<ApiResponse> => {
+    const operation = {
+      table_name: tableName,
+      db_name: DB_NAME,
+      from: tableName,
+      delete: {
+        record_ids_to_delete_list: [id]
+      }
+    };
+
+    return executeRequest([operation]);
+  };
+
+  return {
+    create,
+    update,
+    delete: remove
+  };
 };
 
 export const useRestApiClient = () => {
