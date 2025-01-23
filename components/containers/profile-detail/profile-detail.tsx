@@ -117,6 +117,7 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
                   <Plus className="h-10 w-10" />
                 </Button>
               }
+              rootId={metadata?.id}
             />
           </div>
         </div>

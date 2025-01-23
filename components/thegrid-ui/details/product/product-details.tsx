@@ -14,22 +14,47 @@ type ProductDetailsProps = {
   trigger?: React.ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  rootId?: string;
 };
 
 export function ProductDetails({
   product,
   trigger,
   open: controlledOpen,
-  onOpenChange
+  onOpenChange,
+  rootId
 }: ProductDetailsProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
   const client = useRestApiClient();
-  const { updateProduct, isUpdating } = useProductForm(client, product?.id);
+  const { updateProduct, isUpdating } = useProductForm(client, product?.id, rootId);
   const [formRef, setFormRef] = useState<HTMLFormElement | null>(null);
   const { toast } = useToast();
 
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = onOpenChange ?? setUncontrolledOpen;
+
+  const handleSubmit = async (data: any) => {
+    if (!rootId && !product) {
+      toast({
+        title: 'Error',
+        description: 'Root ID is required to create a product',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    updateProduct(data, {
+      onSuccess: () => {
+        toast({
+          title: product ? 'Product Updated' : 'Product Created',
+          description: product
+            ? 'The product has been updated successfully.'
+            : 'The new product has been created successfully.'
+        });
+        setOpen(false);
+      }
+    });
+  };
 
   return (
     <DetailsContainer
@@ -59,19 +84,7 @@ export function ProductDetails({
       <ProductForm
         product={product}
         formRef={setFormRef}
-        onSubmit={data => {
-          updateProduct(data, {
-            onSuccess: () => {
-              toast({
-                title: product ? 'Product Updated' : 'Product Created',
-                description: product
-                  ? 'The product has been updated successfully.'
-                  : 'The new product has been created successfully.'
-              });
-              setOpen(false);
-            }
-          });
-        }}
+        onSubmit={handleSubmit}
       />
     </DetailsContainer>
   );

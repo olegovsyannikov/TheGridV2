@@ -59,6 +59,44 @@ type UserMetadata = {
   api_key: string;
 };
 
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    public statusCode?: number,
+    public operation?: ApiOperationResult,
+    public userMessage?: string
+  ) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
+const getUserFriendlyMessage = (error: string): string => {
+  // Foreign key constraint errors
+  if (error.includes('foreign key constraint fails')) {
+    return 'This record cannot be created or updated because it references invalid data';
+  }
+
+  // Duplicate entry errors
+  if (error.includes('Duplicate entry')) {
+    return 'A record with this information already exists';
+  }
+
+  // Default messages for common operations
+  if (error.includes('failed to insert')) {
+    return 'Failed to create the record';
+  }
+  if (error.includes('failed to update')) {
+    return 'Failed to update the record';
+  }
+  if (error.includes('failed to delete')) {
+    return 'Failed to delete the record';
+  }
+
+  // Default fallback
+  return 'An error occurred while processing your request';
+};
+
 export const createRestApiClient = (
   getToken: () => Promise<string>,
   userMetadata: UserMetadata
@@ -78,8 +116,6 @@ export const createRestApiClient = (
       }
     };
 
-    console.log('Sending API request:', JSON.stringify(fullPayload, null, 2));
-
     const response = await fetch(API_ENDPOINT, {
       method: 'POST',
       headers: {
@@ -89,16 +125,29 @@ export const createRestApiClient = (
       body: JSON.stringify(fullPayload)
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('API Error Response:', errorText);
-      throw new Error(
-        `API request failed: ${response.statusText}\n${errorText}`
+    const data = await response.json();
+
+    // Check for operation-level errors
+    if (data.results?.[0] && !data.results[0].success) {
+      const technicalError = data.results[0].error || 'Operation failed';
+      throw new ApiError(
+        technicalError,
+        response.status,
+        data.results[0],
+        getUserFriendlyMessage(technicalError)
       );
     }
 
-    const data = await response.json();
-    console.log('API Response:', JSON.stringify(data, null, 2));
+    // Check for HTTP-level errors
+    if (!response.ok) {
+      throw new ApiError(
+        `HTTP ${response.status}: ${response.statusText}`,
+        response.status,
+        undefined,
+        'The server is temporarily unavailable. Please try again later.'
+      );
+    }
+
     return data;
   };
 

@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { TgsField } from '../../forms/fields/tgs-field';
 
 const FormSchema = z.object({
-  'products.name': z.string().optional(),
+  'products.name': z.string().min(1, 'Product name is required'),
   'products.productType': z.string().optional(),
   'products.description': z.string().optional(),
   'products.productStatus': z.string().optional(),
@@ -33,7 +33,9 @@ export function ProductForm({ onSubmit, product, formRef }: ProductFormProps) {
       'products.productStatus': product?.productStatus?.id ?? '',
       'products.isMainProduct': product?.isMainProduct ? 'true' : 'false',
       'products.launchDate': product?.launchDate ?? ''
-    }
+    },
+    mode: 'onChange',
+    reValidateMode: 'onChange'
   });
 
   function onError(errors: any) {

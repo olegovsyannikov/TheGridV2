@@ -1,17 +1,17 @@
 'use client';
 
 import {
+  FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
-  FormDescription
+  useFormField
 } from '@/components/ui/form';
-import { useFormField } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { getTgsData, TgsFieldNames } from '@/lib/tgs';
 import { SelectField } from './select-field';
-import { Input } from '@/components/ui/input';
 
 type TgsSFieldProps = {
   label: string;
