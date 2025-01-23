@@ -2,18 +2,15 @@
 
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
-import {
-  CProducts,
-  ProductFieldsFragmentFragment
-} from '@/lib/graphql/generated/graphql';
-import { useRestApiClient } from '@/lib/rest-api/client';
+import { CProducts } from '@/lib/graphql/generated/graphql';
+import { ApiError, ApiResponse, useRestApiClient } from '@/lib/rest-api/client';
 import { ProductFormFields } from './product-form-fields';
-import { ControlledForm } from '../../../ui/controlled-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { UseFormProps } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useProductsApi } from '@/lib/rest-api/products';
+import { Form, FormMessage } from '@/components/ui/form';
 
 const dataSchema = z.object({
   products: z.object({
@@ -42,7 +39,11 @@ export function CreateProductForm({
   const client = useRestApiClient();
   const queryClient = useQueryClient();
   const productsApi = useProductsApi(client);
-  const { mutate: updateProduct } = useMutation({
+  const {
+    mutate: updateProduct,
+    isPending,
+    error
+  } = useMutation<ApiResponse, ApiError, FormData>({
     mutationFn: async (data: FormData) => {
       const productData: Partial<CProducts> = {
         name: data.products.name,
@@ -66,13 +67,10 @@ export function CreateProductForm({
         description: 'The product has been created successfully.'
       });
       onSuccess?.();
-    },
-    onError: (error: any) => {
-      throw new Error(error);
     }
   });
 
-  const formDefinition: UseFormProps = {
+  const form = useForm({
     resolver: zodResolver(dataSchema),
     defaultValues: {
       products: {
@@ -86,29 +84,30 @@ export function CreateProductForm({
     },
     mode: 'onChange',
     reValidateMode: 'onChange'
-  };
+  });
 
   return (
-    <ControlledForm
-      formDefinition={formDefinition}
-      onSubmit={async data => updateProduct(data)}
-      renderFooter={({ isLoading }) => (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(data => updateProduct(data))}
+        className="flex flex-col space-y-6"
+      >
+        <ProductFormFields />
         <div className="flex gap-2">
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? 'Saving...' : 'Create Product'}
+          <Button type="submit" disabled={isPending}>
+            {isPending ? 'Saving...' : 'Create Product'}
           </Button>
           <Button
             variant="outline"
             type="button"
-            disabled={isLoading}
+            disabled={isPending}
             onClick={() => onCancel?.()}
           >
             Cancel
           </Button>
         </div>
-      )}
-    >
-      <ProductFormFields />
-    </ControlledForm>
+        {error && <FormMessage>{error.userMessage}</FormMessage>}
+      </form>
+    </Form>
   );
 }
