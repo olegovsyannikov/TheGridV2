@@ -1,17 +1,16 @@
 'use client';
 
 import {
-  FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
+  FormControl,
   FormMessage,
-  useFormField
+  FormDescription
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { getTgsData, TgsFieldNames } from '@/lib/tgs';
 import { SelectField } from './select-field';
+import { Input } from '@/components/ui/input';
 
 type TgsSFieldProps = {
   label: string;
@@ -27,7 +26,6 @@ export function TgsField({
   fieldName
 }: TgsSFieldProps) {
   const tgsData = getTgsData(tgsField);
-  const field = useFormField();
 
   if (tgsData.isDataValid === false) {
     return (
@@ -48,16 +46,16 @@ export function TgsField({
       <>
         {tgsData.is_enum === 'true' && (
           <FormField
-            {...field}
             name={tgsField ?? fieldName}
-            render={({ field: formField }) => (
+            render={({ field, fieldState }) => (
               <FieldWrapper label={label} description={tgsData.description}>
                 <SelectField
-                  {...formField}
-                  defaultValue={formField.value}
+                  {...field}
+                  defaultValue={field.value}
                   placeholder={placeholder}
-                  onChange={formField.onChange}
-                  value={formField.value}
+                  onChange={field.onChange}
+                  value={field.value}
+                  error={fieldState.error?.message}
                   options={tgsData.possible_values.map(value => ({
                     id: value.id,
                     label: value.name,
@@ -71,14 +69,13 @@ export function TgsField({
 
         {tgsData.is_enum === 'false' && (
           <FormField
-            {...field}
             name={tgsField ?? fieldName}
-            render={({ field: formField }) => (
+            render={({ field, fieldState }) => (
               <FieldWrapper label={label} description={tgsData.description}>
                 <Input
-                  {...formField}
-                  value={formField.value}
                   placeholder={placeholder}
+                  error={fieldState.error?.message}
+                  {...field}
                 />
               </FieldWrapper>
             )}
@@ -104,8 +101,8 @@ const FieldWrapper = ({
     <FormItem>
       <FormLabel>{label}</FormLabel>
       <FormControl>{children}</FormControl>
-      <FormDescription>{description}</FormDescription>
       <FormMessage />
+      <FormDescription>{description}</FormDescription>
     </FormItem>
   );
 };

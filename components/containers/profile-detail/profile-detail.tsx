@@ -1,6 +1,6 @@
 'use client';
 
-import { ProductDetails } from '@/components/thegrid-ui/details/product/product-details';
+import { CreateProductOverlay } from '@/components/thegrid-ui/overlays/create-product-overlay';
 import { Button } from '@/components/ui/button';
 import { execute } from '@/lib/graphql/execute';
 import { graphql } from '@/lib/graphql/generated';
@@ -107,13 +107,9 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
               <ProductCard key={product.id} product={product} />
             ))}
           <div className="flex h-full min-h-[200px] items-center justify-center rounded-lg border-2 border-dashed">
-            <ProductDetails
-              trigger={
-                <Button
-                  variant="ghost"
-                  className="h-20 w-20"
-                  size="icon"
-                >
+            <CreateProductOverlay
+              triggerNode={
+                <Button variant="ghost" className="h-20 w-20" size="icon">
                   <Plus className="h-10 w-10" />
                 </Button>
               }
