@@ -7,7 +7,8 @@ import { redirect } from 'next/navigation';
 export const dynamic = 'force-dynamic';
 
 export default function Profile() {
-  const { isLoading, isAuthenticated, organizationMetadata } = useClerkContext();
+  const { isLoading, isAuthenticated, organizationMetadata } =
+    useClerkContext();
 
   if (isLoading) {
     return (
@@ -25,7 +26,9 @@ export default function Profile() {
     return (
       <div className="container py-10">
         <h1 className="text-2xl font-bold">No Organization Found</h1>
-        <p className="mt-4">You need to be part of an organization to view this profile.</p>
+        <p className="mt-4">
+          You need to be part of an organization to view this profile.
+        </p>
       </div>
     );
   }

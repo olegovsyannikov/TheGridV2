@@ -66,11 +66,14 @@ export const useProductForm = (
 
   const handleSubmit = (
     data: FormData,
-    options?: { onSuccess?: () => void }
+    options?: { onSuccess?: () => void; onError?: (error: any) => void }
   ) => {
     updateProduct(data, {
       onSuccess: () => {
         options?.onSuccess?.();
+      },
+      onError: error => {
+        options?.onError?.(error);
       }
     });
   };
