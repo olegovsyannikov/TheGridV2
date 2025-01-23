@@ -1,7 +1,7 @@
 'use client';
 
 import { ClerkProvider, useAuth, useOrganization, useUser } from '@clerk/nextjs';
-import { type ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { type ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 type UserMetadata = {
   id: string;
@@ -9,6 +9,11 @@ type UserMetadata = {
   firstName: string | null;
   lastName: string | null;
   imageUrl: string;
+  publicMetadata?: {
+    user_id?: string;
+    email?: string;
+    api_key?: string;
+  };
 } | null;
 
 type OrganizationMetadata = {
@@ -17,24 +22,26 @@ type OrganizationMetadata = {
   name: string;
 } | null;
 
-type ClerkContextType = {
+export type ClerkContextType = {
   organizationMetadata: OrganizationMetadata;
   userMetadata: UserMetadata;
   token: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
+  getToken: () => Promise<string>;
 };
 
-const ClerkContext = createContext<ClerkContextType>({
+export const ClerkContext = createContext<ClerkContextType>({
   organizationMetadata: null,
   userMetadata: null,
   token: null,
   isLoading: true,
-  isAuthenticated: false
+  isAuthenticated: false,
+  getToken: async () => { throw new Error('Clerk context not initialized'); }
 });
 
 function ClerkContextProvider({ children }: { children: ReactNode }) {
-  const { isLoaded: isAuthLoaded, isSignedIn, getToken } = useAuth();
+  const { isLoaded: isAuthLoaded, isSignedIn, getToken: clerkGetToken } = useAuth();
   const { isLoaded: isOrgLoaded, organization } = useOrganization();
   const { isLoaded: isUserLoaded, user } = useUser();
   const [token, setToken] = useState<string | null>(null);
@@ -45,7 +52,7 @@ function ClerkContextProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const fetchToken = async () => {
       if (isAuthenticated) {
-        const jwt = await getToken();
+        const jwt = await clerkGetToken();
         setToken(jwt);
       } else {
         setToken(null);
@@ -53,7 +60,7 @@ function ClerkContextProvider({ children }: { children: ReactNode }) {
     };
 
     void fetchToken();
-  }, [isAuthenticated, getToken]);
+  }, [isAuthenticated, clerkGetToken]);
 
   const organizationMetadata = organization ? {
     id: organization.id,
@@ -68,8 +75,22 @@ function ClerkContextProvider({ children }: { children: ReactNode }) {
     email: user.primaryEmailAddress?.emailAddress ?? '',
     firstName: user.firstName,
     lastName: user.lastName,
-    imageUrl: user.imageUrl
+    imageUrl: user.imageUrl,
+    publicMetadata: user.publicMetadata as {
+      user_id?: string;
+      email?: string;
+      api_key?: string;
+    }
   } : null;
+
+  const getToken = useCallback(async () => {
+    const newToken = await clerkGetToken();
+    if (!newToken) {
+      throw new Error('Failed to get authentication token');
+    }
+    setToken(newToken);
+    return newToken;
+  }, [clerkGetToken]);
 
   return (
     <ClerkContext.Provider value={{
@@ -77,7 +98,8 @@ function ClerkContextProvider({ children }: { children: ReactNode }) {
       userMetadata,
       token,
       isLoading,
-      isAuthenticated
+      isAuthenticated,
+      getToken
     }}>
       {children}
     </ClerkContext.Provider>

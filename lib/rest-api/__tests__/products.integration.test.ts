@@ -2,25 +2,29 @@ import { createRestApiClient } from '../client';
 import { CreateProductInput, createProductsApi } from '../products';
 
 // Only run these tests if integration test env vars are set
-const TEST_USER_ID = process.env.TEST_USER_ID;
-const TEST_USER_EMAIL = process.env.TEST_USER_EMAIL;
-const TEST_ACCESS_KEY = process.env.TEST_ACCESS_KEY;
+const TEST_TOKEN = process.env.TEST_TOKEN;
+const TEST_USER_METADATA = {
+  user_id: process.env.TEST_USER_ID ?? '',
+  email: process.env.TEST_USER_EMAIL ?? '',
+  api_key: process.env.TEST_ACCESS_KEY ?? ''
+};
 
 // Skip all tests if credentials are not provided
 const describeif =
-  TEST_USER_ID && TEST_USER_EMAIL && TEST_ACCESS_KEY ? describe : describe.skip;
+  TEST_TOKEN &&
+  TEST_USER_METADATA.user_id &&
+  TEST_USER_METADATA.email &&
+  TEST_USER_METADATA.api_key
+    ? describe
+    : describe.skip;
 
 describeif('ProductsApi Integration', () => {
-  const client = createRestApiClient(
-    TEST_USER_ID!,
-    TEST_USER_EMAIL!,
-    TEST_ACCESS_KEY!
-  );
+  const client = createRestApiClient(TEST_TOKEN!, TEST_USER_METADATA);
   const api = createProductsApi(client);
 
   const testProduct: CreateProductInput = {
     name: 'Integration Test Product',
-    description: `Test product created by ${TEST_USER_EMAIL}`,
+    description: 'Test product created by integration test',
     rootId: '254',
     isMainProduct: 0,
     productTypeId: null,
@@ -31,10 +35,7 @@ describeif('ProductsApi Integration', () => {
   let createdProductId: string;
 
   it('should create a new product', async () => {
-    console.log('Creating product with payload:', {
-      ...testProduct,
-      created_by: TEST_USER_EMAIL
-    });
+    console.log('Creating product with payload:', testProduct);
 
     const response = await api.create(testProduct);
     expect(response).toBeDefined();
@@ -47,9 +48,7 @@ describeif('ProductsApi Integration', () => {
     expect(response.results[0].create?.created_records[0]).toBeDefined();
     createdProductId = response.results[0].create!.created_records[0];
 
-    console.log(
-      `Created product with ID: ${createdProductId} by ${TEST_USER_EMAIL}`
-    );
+    console.log(`Created product with ID: ${createdProductId}`);
   });
 
   it('should update the product', async () => {
@@ -57,13 +56,10 @@ describeif('ProductsApi Integration', () => {
 
     const updateData = {
       id: createdProductId,
-      description: `Updated integration test product by ${TEST_USER_EMAIL}`
+      description: 'Updated integration test product'
     };
 
-    console.log('Updating product with payload:', {
-      ...updateData,
-      updated_by: TEST_USER_EMAIL
-    });
+    console.log('Updating product with payload:', updateData);
 
     const response = await api.update(updateData);
     expect(response).toBeDefined();
@@ -88,8 +84,6 @@ describeif('ProductsApi Integration', () => {
     expect(response.results[0].success).toBe(true);
     expect(response.results[0].delete).toBeDefined();
 
-    console.log(
-      `Deleted product with ID: ${createdProductId} by ${TEST_USER_EMAIL}`
-    );
+    console.log(`Deleted product with ID: ${createdProductId}`);
   });
 });

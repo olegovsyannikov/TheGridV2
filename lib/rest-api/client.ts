@@ -1,3 +1,5 @@
+'use client';
+
 import { useClerkContext } from '@/providers/clerk-provider';
 
 const API_ENDPOINT =
@@ -51,18 +53,24 @@ export interface RestClient {
   delete: (tableName: string, id: string) => Promise<ApiResponse>;
 }
 
+type UserMetadata = {
+  user_id: string;
+  email: string;
+  api_key: string;
+};
+
 export const createRestApiClient = (
-  userId: string,
-  userEmail: string,
-  accessKey: string
+  getToken: () => Promise<string>,
+  userMetadata: UserMetadata
 ): RestClient => {
   const executeRequest = async (operations: any[]): Promise<ApiResponse> => {
+    const token = await getToken();
     const fullPayload = {
       command: 'retool_backend_go/db.crud.direct',
       user: {
-        user_id: userId,
-        user_email: userEmail,
-        access_key: accessKey
+        user_id: userMetadata.user_id,
+        user_email: userMetadata.email,
+        access_key: userMetadata.api_key
       },
       batch: {
         dry_run: false,
@@ -75,7 +83,8 @@ export const createRestApiClient = (
     const response = await fetch(API_ENDPOINT, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify(fullPayload)
     });
@@ -152,11 +161,21 @@ export const createRestApiClient = (
 };
 
 export const useRestApiClient = () => {
-  const { userMetadata, token } = useClerkContext();
+  const { getToken, userMetadata } = useClerkContext();
 
-  if (!userMetadata?.id || !userMetadata?.email || !token) {
-    throw new Error('User must be authenticated to use the API client');
+  if (
+    !userMetadata?.publicMetadata?.user_id ||
+    !userMetadata?.publicMetadata?.email ||
+    !userMetadata?.publicMetadata?.api_key
+  ) {
+    throw new Error(
+      'User must be authenticated and have required metadata to use the API client'
+    );
   }
 
-  return createRestApiClient(userMetadata.id, userMetadata.email, token);
+  return createRestApiClient(getToken, {
+    user_id: userMetadata.publicMetadata.user_id,
+    email: userMetadata.publicMetadata.email,
+    api_key: userMetadata.publicMetadata.api_key
+  });
 };

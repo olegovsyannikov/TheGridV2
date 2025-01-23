@@ -6,10 +6,14 @@ const mockFetch = jest.fn();
 (global as any).fetch = mockFetch;
 
 describe('ProductsApi', () => {
-  const mockUserId = 'test@thegrid.id';
-  const mockUserEmail = 'test@thegrid.id';
-  const mockAccessKey = 'test-access-key';
-  const client = createRestApiClient(mockUserId, mockUserEmail, mockAccessKey);
+  const mockToken = 'test-token';
+  const mockUserMetadata = {
+    user_id: 'test@thegrid.id',
+    email: 'test@thegrid.id',
+    api_key: 'test-access-key'
+  };
+
+  const client = createRestApiClient(mockToken, mockUserMetadata);
   const api = createProductsApi(client);
 
   const testProduct: CreateProductInput = {
@@ -71,9 +75,9 @@ describe('ProductsApi', () => {
     expect(payload).toEqual({
       command: 'retool_backend_go/db.crud.direct',
       user: {
-        user_id: mockUserId,
-        user_email: mockUserEmail,
-        access_key: mockAccessKey
+        user_id: mockUserMetadata.user_id,
+        user_email: mockUserMetadata.email,
+        access_key: mockUserMetadata.api_key
       },
       batch: {
         dry_run: false,
@@ -134,9 +138,9 @@ describe('ProductsApi', () => {
     expect(payload).toEqual({
       command: 'retool_backend_go/db.crud.direct',
       user: {
-        user_id: mockUserId,
-        user_email: mockUserEmail,
-        access_key: mockAccessKey
+        user_id: mockUserMetadata.user_id,
+        user_email: mockUserMetadata.email,
+        access_key: mockUserMetadata.api_key
       },
       batch: {
         dry_run: false,
@@ -186,9 +190,9 @@ describe('ProductsApi', () => {
     expect(payload).toEqual({
       command: 'retool_backend_go/db.crud.direct',
       user: {
-        user_id: mockUserId,
-        user_email: mockUserEmail,
-        access_key: mockAccessKey
+        user_id: mockUserMetadata.user_id,
+        user_email: mockUserMetadata.email,
+        access_key: mockUserMetadata.api_key
       },
       batch: {
         dry_run: false,

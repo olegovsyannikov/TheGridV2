@@ -1,13 +1,13 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
 import { useEventListener } from '@/hooks/use-event-listener';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { cn } from '@/lib/utils';
 import { X } from 'lucide-react';
-import { PropsWithChildren, createContext, useContext, useEffect, useState } from 'react';
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './dialog';
+import { PropsWithChildren, createContext, useContext, useState } from 'react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './dialog';
 import { ScrollArea } from './scroll-area';
 
 export type DetailsContainerProps = PropsWithChildren<{
@@ -34,12 +34,7 @@ export function DetailsContainer({
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = onOpenChange ?? setUncontrolledOpen;
 
-  useEffect(() => {
-    console.log('DetailsContainer state:', { open, controlledOpen, uncontrolledOpen });
-  }, [open, controlledOpen, uncontrolledOpen]);
-
   useEventListener('close-dialog', () => {
-    console.log('DetailsContainer: close-dialog event received');
     setOpen(false);
   });
 
@@ -62,15 +57,18 @@ export function DetailsContainer({
               </Button>
             </div>
           </DialogHeader>
+          <DialogDescription className="sr-only">
+            {title} form dialog
+          </DialogDescription>
           <ScrollArea className="max-h-[calc(90vh-14rem)]">
             <div className={cn('p-6', className)}>
               {children}
             </div>
           </ScrollArea>
           {footer && (
-            <DialogFooter className="px-6 py-4">
+            <div className="border-t px-6 py-4">
               {footer}
-            </DialogFooter>
+            </div>
           )}
         </DialogContent>
       </Dialog>
@@ -99,9 +97,9 @@ export function DetailsContainer({
           </div>
         </ScrollArea>
         {footer && (
-          <DrawerFooter className="px-6 py-4">
+          <div className="border-t px-6 py-4">
             {footer}
-          </DrawerFooter>
+          </div>
         )}
       </DrawerContent>
     </Drawer>
