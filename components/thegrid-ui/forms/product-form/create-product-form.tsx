@@ -61,7 +61,7 @@ export function CreateProductForm({
       return productsApi.create({ ...productData, rootId });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
       toast({
         title: 'Product Created',
         description: 'The product has been created successfully.'

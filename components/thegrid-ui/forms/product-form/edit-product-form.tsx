@@ -67,7 +67,7 @@ export function EditProductForm({
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
       toast({
         title: 'Product Updated',
         description: 'The product has been updated successfully.'

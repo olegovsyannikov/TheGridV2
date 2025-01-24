@@ -4,7 +4,7 @@ import { CreateProductOverlay } from '@/components/thegrid-ui/overlays/create-pr
 import { Button } from '@/components/ui/button';
 import { execute } from '@/lib/graphql/execute';
 import { graphql } from '@/lib/graphql/generated';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Banknote, Building2, Package, Plus } from 'lucide-react';
 import { AssetCard } from './components/asset-card';
 import { EntityCard } from './components/entity-card';
@@ -60,7 +60,8 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
 
   const { data, isFetching } = useQuery({
     queryKey: ['profile', profileId],
-    queryFn: () => execute(ProfileDetailQuery, query)
+    queryFn: () => execute(ProfileDetailQuery, query),
+    placeholderData: keepPreviousData
   });
 
   const profile = data?.profileInfos?.[0];
