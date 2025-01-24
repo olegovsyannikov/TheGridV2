@@ -19,7 +19,10 @@ const describeif =
     : describe.skip;
 
 describeif('ProductsApi Integration', () => {
-  const client = createRestApiClient(TEST_TOKEN!, TEST_USER_METADATA);
+  const client = createRestApiClient(
+    async () => TEST_TOKEN!,
+    TEST_USER_METADATA
+  );
   const api = createProductsApi(client);
 
   const testProduct: CreateProductInput = {

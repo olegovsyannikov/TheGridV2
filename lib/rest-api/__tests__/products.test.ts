@@ -13,7 +13,7 @@ describe('ProductsApi', () => {
     api_key: 'test-access-key'
   };
 
-  const client = createRestApiClient(mockToken, mockUserMetadata);
+  const client = createRestApiClient(async () => mockToken, mockUserMetadata);
   const api = createProductsApi(client);
 
   const testProduct: CreateProductInput = {
