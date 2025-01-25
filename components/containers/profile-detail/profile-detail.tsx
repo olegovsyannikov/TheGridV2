@@ -4,7 +4,7 @@ import { CreateProductOverlay } from '@/components/thegrid-ui/overlays/create-pr
 import { Button } from '@/components/ui/button';
 import { execute } from '@/lib/graphql/execute';
 import { graphql } from '@/lib/graphql/generated';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Banknote, Building2, Package, Plus } from 'lucide-react';
 import { AssetCard } from './components/asset-card';
 import { EntityCard } from './components/entity-card';
@@ -17,13 +17,13 @@ import ProfileLoading from './components/profile-loading';
 import ProfileNotFound from './components/profile-not-found';
 
 export const ProfileDetailQuery = graphql(`
-  query getProfileData($where: CProfileInfosBoolExp) {
+  query getProfileData($where: AProfileInfosBoolExp) {
     profileInfos(limit: 1, offset: 0, where: $where) {
       tagLine
       descriptionShort
       descriptionLong
-      ...ProfileFragment
       ...ProfileHeadingFragment
+      ...ProfileFragment
       root {
         products {
           id
@@ -60,7 +60,8 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
 
   const { data, isFetching } = useQuery({
     queryKey: ['profile', profileId],
-    queryFn: () => execute(ProfileDetailQuery, query)
+    queryFn: () => execute(ProfileDetailQuery, query),
+    placeholderData: keepPreviousData
   });
 
   const profile = data?.profileInfos?.[0];
@@ -107,14 +108,16 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
               <ProductCard key={product.id} product={product} />
             ))}
           <div className="flex h-full min-h-[200px] items-center justify-center rounded-lg border-2 border-dashed">
-            <CreateProductOverlay
-              triggerNode={
-                <Button variant="ghost" className="h-20 w-20" size="icon">
-                  <Plus className="h-10 w-10" />
-                </Button>
-              }
-              rootId={metadata?.id}
-            />
+            {metadata?.id && (
+              <CreateProductOverlay
+                triggerNode={
+                  <Button variant="ghost" className="h-20 w-20" size="icon">
+                    <Plus className="h-10 w-10" />
+                  </Button>
+                }
+                rootId={metadata.id}
+              />
+            )}
           </div>
         </div>
       </ProfileDataSection>

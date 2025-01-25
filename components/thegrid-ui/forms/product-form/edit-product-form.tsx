@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import {
-  CProducts,
+  AProducts,
   ProductFieldsFragmentFragment
 } from '@/lib/graphql/generated/graphql';
 import { ApiError, ApiResponse, useRestApiClient } from '@/lib/rest-api/client';
@@ -48,7 +48,7 @@ export function EditProductForm({
     error
   } = useMutation<ApiResponse, ApiError, FormData>({
     mutationFn: async (data: FormData) => {
-      const productData: Partial<CProducts> = {
+      const productData: Partial<AProducts> = {
         name: data.products.name,
         productTypeId: data.products.productType,
         description: data.products.description,
@@ -67,7 +67,7 @@ export function EditProductForm({
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
       toast({
         title: 'Product Updated',
         description: 'The product has been updated successfully.'
