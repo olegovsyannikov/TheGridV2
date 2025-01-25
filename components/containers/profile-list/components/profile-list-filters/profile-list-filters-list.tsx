@@ -1,8 +1,8 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { FilterGroup } from './components/filter-group';
 import { ComboBox } from '@/components/ui/combobox';
-import { DatePicker } from '@/components/ui/date-picker';
+import { DatePickerCustom } from '@/components/ui/date-picker-custom';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useProfileFiltersContext } from '@/providers/filters-provider';
+import { FilterGroup } from './components/filter-group';
 
 export const ProfileListFiltersList = () => {
   const { filters } = useProfileFiltersContext();
@@ -34,7 +34,7 @@ export const ProfileListFiltersList = () => {
           )}
 
           {filters.profileFoundingDateFilter.enabled && (
-            <DatePicker
+            <DatePickerCustom
               value={filters.profileFoundingDateFilter.value}
               onChange={date => {
                 filters.profileFoundingDateFilter.setValue(date);
@@ -136,7 +136,7 @@ export const ProfileListFiltersList = () => {
           )}
 
           {filters.productLaunchDateFilter.enabled && (
-            <DatePicker
+            <DatePickerCustom
               value={filters.productLaunchDateFilter.value}
               onChange={date => {
                 filters.productLaunchDateFilter.setValue(date);

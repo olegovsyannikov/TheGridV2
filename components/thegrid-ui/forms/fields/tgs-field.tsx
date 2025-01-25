@@ -1,16 +1,18 @@
 'use client';
 
+import { DatePicker } from '@/components/ui/date-picker';
 import {
+  FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
-  FormMessage,
-  FormDescription
+  FormMessage
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { getTgsData, TgsFieldNames } from '@/lib/tgs';
 import { SelectField } from './select-field';
-import { Input } from '@/components/ui/input';
 
 type TgsSFieldProps = {
   label: string;
@@ -41,10 +43,16 @@ export function TgsField({
     );
   }
 
+  const isEnum = tgsData.is_enum === 'true';
+  const isTextArea = tgsData.parameter_id.toLowerCase().includes('description');
+  const isDate = tgsData.parameter_id.toLowerCase().includes('date');
+  const isToggle = tgsData.parameter_id.startsWith('is');
+  const isText = !isEnum && !isDate && !isTextArea && !isToggle;
+
   if (tgsData.isDataValid === true) {
     return (
       <>
-        {tgsData.is_enum === 'true' && (
+        {isEnum && (
           <FormField
             name={tgsField ?? fieldName}
             render={({ field, fieldState }) => (
@@ -67,7 +75,7 @@ export function TgsField({
           />
         )}
 
-        {tgsData.is_enum === 'false' && (
+        {isText && (
           <FormField
             name={tgsField ?? fieldName}
             render={({ field, fieldState }) => (
@@ -81,13 +89,43 @@ export function TgsField({
             )}
           />
         )}
+
+        {isTextArea && (
+          <FormField
+            name={tgsField ?? fieldName}
+            render={({ field, fieldState }) => (
+              <FieldWrapper label={label} description={tgsData.description}>
+                <Textarea
+                  placeholder={placeholder}
+                  error={fieldState.error?.message}
+                  {...field}
+                />
+              </FieldWrapper>
+            )}
+          />
+        )}
+
+        {isDate && (
+          <FormField
+            name={tgsField ?? fieldName}
+            render={({ field, fieldState }) => (
+              <FieldWrapper label={label} description={tgsData.description}>
+                <DatePicker
+                  error={fieldState.error?.message}
+                  {...field}
+                />
+              </FieldWrapper>
+            )}
+          />
+        )}
+
+
       </>
     );
   }
 
   return null;
 }
-
 const FieldWrapper = ({
   children,
   label,

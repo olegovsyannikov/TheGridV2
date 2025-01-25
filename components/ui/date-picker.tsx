@@ -1,85 +1,51 @@
-'use client';
+"use client"
 
-import { Calendar } from '@/components/ui/calendar';
-import { FilterContainer, useFilterContainer } from './filter-container';
-import { Button } from './button';
-import { cn } from '@/lib/utils';
-import { format } from 'date-fns';
+import { format } from "date-fns"
+import { CalendarIcon } from "lucide-react"
 
-type Range = [string, string] | null;
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { cn } from "@/lib/utils"
 
-export type DatePicker = {
-  label: string;
-  value: Range;
-  onChange?: (date: Range) => void;
-};
-
-export function DatePicker({ value, onChange, label }: DatePicker) {
-  const active = value?.every(i => i);
-  return (
-    <FilterContainer badgeContent={active && '1'} label={label} active={active}>
-      <div className="flex justify-center">
-        <Calendar
-          captionLayout="dropdown-buttons"
-          fromYear={2000}
-          toYear={2024}
-          mode="range"
-          selected={{
-            from: value?.[0] ? new Date(value[0]) : undefined,
-            to: value?.[1] ? new Date(value[1]) : undefined
-          }}
-          onSelect={date => {
-            const from = date?.from ? formatDate(date.from) : '';
-            const to = date?.to ? formatDate(date.to) : '';
-            onChange?.([from, to]);
-          }}
-          initialFocus
-        />
-      </div>
-
-      <DatePickerFooter value={value} onChange={onChange} />
-    </FilterContainer>
-  );
+export interface DatePickerProps {
+  value?: string | null;
+  onChange?: (value: string | null) => void;
+  error?: string;
+  className?: string;
 }
 
-const formatDate = (date: Date) => format(date, 'yyyy-MM-dd');
-
-type DatePickerFooterProps = {
-  value?: DatePicker['value'];
-  onChange?: DatePicker['onChange'];
-};
-
-export const DatePickerFooter = ({
-  onChange,
-  value
-}: DatePickerFooterProps) => {
-  const { setOpen } = useFilterContainer();
+export function DatePicker({ value, onChange, error, className }: DatePickerProps) {
+  const date = value ? new Date(value) : undefined;
 
   return (
-    <div className={cn('flex flex-col items-end border-t')}>
-      <div className="flex w-full flex-1 items-center gap-2 border-b p-2">
+    <Popover>
+      <PopoverTrigger asChild>
         <Button
           variant="outline"
-          size="sm"
-          disabled={!value}
-          onClick={() => {
-            onChange?.(null);
-          }}
+          className={cn(
+            "w-full justify-start text-left font-normal",
+            !date && "text-muted-foreground",
+            error && "border-destructive",
+            className
+          )}
         >
-          Clear
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
-
-        <div className="text text-xs text-muted-foreground">
-          From{' '}
-          <span className="font-medium text-primary">{value?.[0] ?? '-'}</span>{' '}
-          to{' '}
-          <span className="font-medium text-primary">{value?.[1] ?? '-'}</span>
-        </div>
-      </div>
-
-      <div className="p-2">
-        <Button onClick={() => setOpen(false)}>Close</Button>
-      </div>
-    </div>
-  );
-};
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0" align="start">
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={(newDate) => onChange?.(newDate ? format(newDate, "yyyy-MM-dd") : null)}
+          initialFocus
+        />
+      </PopoverContent>
+    </Popover>
+  )
+}
