@@ -1,9 +1,9 @@
 import { execute } from '@/lib/graphql/execute';
-import { useFilter, MultiSelectFilterProps } from '../../use-filter';
-import { validateAndFormatOptions, parseAsId } from '../utils';
-import { useQueryState, parseAsArrayOf } from 'nuqs';
 import { graphql } from '@/lib/graphql/generated';
+import { parseAsArrayOf, useQueryState } from 'nuqs';
+import { useFilter } from '../../use-filter';
 import { FiltersStore } from '../../use-profile-filters';
+import { parseAsId, validateAndFormatOptions } from '../utils';
 
 const filterId = 'profileStatuses';
 
@@ -22,7 +22,7 @@ export const useProfileStatusesFilter = (filterStore: FiltersStore) => {
       const where = {};
       const data = await execute(
         graphql(`
-          query getProfileStatusesOptions($where: CProfileStatusesBoolExp) {
+          query getProfileStatusesOptions($where: ProfileStatusesBoolExp) {
             profileStatuses(where: $where) {
               label: name
               value: id

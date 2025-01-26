@@ -1,20 +1,21 @@
 'use client';
-import { useInView } from 'react-intersection-observer';
-import { useEffect } from 'react';
-import { ProfileCard, ProfileCardSkeleton } from '../profile-card';
-import { useDebounceValue } from 'usehooks-ts';
-import { useProfilesQueryContext } from '@/providers/profiles-query-provider';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { Progress } from '@/components/ui/progress';
 import { execute } from '@/lib/graphql/execute';
 import { graphql } from '@/lib/graphql/generated';
-import { Progress } from '@/components/ui/progress';
+import type { SearchProfilesQuery as SearchProfilesQueryType } from '@/lib/graphql/generated/graphql';
+import { useProfilesQueryContext } from '@/providers/profiles-query-provider';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { useDebounceValue } from 'usehooks-ts';
+import { ProfileCard, ProfileCardSkeleton } from '../profile-card';
 
 const defaultLimit = 10;
 
 export const SearchProfilesQuery = graphql(`
   query SearchProfiles(
-    $order_by: [CProfileInfosOrderBy!]
-    $where: CProfileInfosBoolExp
+    $order_by: [ProfileInfosOrderBy!]
+    $where: ProfileInfosBoolExp
     $limit: Int
     $offset: Int
   ) {
@@ -46,7 +47,7 @@ export const ProfileListCards = () => {
     },
     refetchOnMount: false,
     refetchOnWindowFocus: false,
-    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+    getNextPageParam: (lastPage: SearchProfilesQueryType, allPages, lastPageParam) => {
       const lastOffset = ((lastPageParam as any)?.offset as number) ?? 0;
 
       if (lastPage.profileInfos?.length) {
@@ -72,7 +73,7 @@ export const ProfileListCards = () => {
   }, [inView, isFetching, isError]);
 
   const profiles = data?.pages
-    ?.flatMap(page => page.profileInfos)
+    ?.flatMap(page => page.profileInfos ?? [])
     .filter(Boolean);
   const nrOfFetchedProfiles = profiles?.length ?? 0;
 

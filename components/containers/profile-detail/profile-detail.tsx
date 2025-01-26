@@ -17,7 +17,7 @@ import ProfileLoading from './components/profile-loading';
 import ProfileNotFound from './components/profile-not-found';
 
 export const ProfileDetailQuery = graphql(`
-  query getProfileData($where: CProfileInfosBoolExp) {
+  query getProfileData($where: ProfileInfosBoolExp) {
     profileInfos(limit: 1, offset: 0, where: $where) {
       tagLine
       descriptionShort

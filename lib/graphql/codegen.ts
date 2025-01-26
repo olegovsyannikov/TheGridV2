@@ -32,7 +32,15 @@ const codegenConfig: CodegenConfig = {
             input: 'string',
             output: 'string'
           },
+          Float1: {
+            input: 'number',
+            output: 'number'
+          },
           Float64: {
+            input: 'number',
+            output: 'number'
+          },
+          Int1: {
             input: 'number',
             output: 'number'
           },
@@ -45,6 +53,34 @@ const codegenConfig: CodegenConfig = {
             output: 'number'
           },
           String1: {
+            input: 'string',
+            output: 'string'
+          },
+          String2: {
+            input: 'string',
+            output: 'string'
+          },
+          Json: {
+            input: 'any',
+            output: 'any'
+          },
+          jsonb: {
+            input: 'any',
+            output: 'any'
+          },
+          numeric: {
+            input: 'number',
+            output: 'number'
+          },
+          timestamptz: {
+            input: 'string',
+            output: 'string'
+          },
+          Timestamp: {
+            input: 'string',
+            output: 'string'
+          },
+          uuid: {
             input: 'string',
             output: 'string'
           }

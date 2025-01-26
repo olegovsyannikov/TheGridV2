@@ -1,12 +1,12 @@
 import { execute } from '@/lib/graphql/execute';
-import { useFilter } from '../../use-filter';
-import { validateAndFormatOptions, parseAsId, mergeConditions } from '../utils';
-import { FiltersStore } from '../../use-profile-filters';
-import { useQueryState, parseAsArrayOf } from 'nuqs';
 import { graphql } from '@/lib/graphql/generated';
-import { isNotEmpty } from '@/lib/utils/is-not-empty';
-import { CSupportsProductsBoolExp } from '@/lib/graphql/generated/graphql';
+import { SupportsProductsBoolExp } from '@/lib/graphql/generated/graphql';
 import { siteConfig } from '@/lib/site-config';
+import { isNotEmpty } from '@/lib/utils/is-not-empty';
+import { parseAsArrayOf, useQueryState } from 'nuqs';
+import { useFilter } from '../../use-filter';
+import { FiltersStore } from '../../use-profile-filters';
+import { mergeConditions, parseAsId, validateAndFormatOptions } from '../utils';
 
 const filterId = 'supportsProducts';
 
@@ -25,7 +25,7 @@ export const useSupportsProductsFilter = (filterStore: FiltersStore) => {
     getOptions: async () => {
       const data = await execute(
         graphql(`
-          query getSupportsProductsOptions($where: CSupportsProductsBoolExp) {
+          query getSupportsProductsOptions($where: SupportsProductsBoolExp) {
             supportsProducts(where: $where) {
               supportsProduct {
                 name
@@ -43,11 +43,24 @@ export const useSupportsProductsFilter = (filterStore: FiltersStore) => {
       const options = Array.from(
         new Map(
           (data?.supportsProducts ?? [])
-            .map(item => ({
-              value: item.supportsProduct?.id,
-              label: item.supportsProduct?.name ?? ' - ',
-              description: item.supportsProduct?.description ?? ' - '
-            }))
+            .map(item => {
+              const id = item.supportsProduct?.id;
+              if (!id) return null;
+              return {
+                value: id,
+                label: item.supportsProduct?.name ?? ' - ',
+                description: item.supportsProduct?.description ?? ' - '
+              };
+            })
+            .filter(
+              (
+                option
+              ): option is {
+                value: string;
+                label: string;
+                description: string;
+              } => option !== null
+            )
             .map(option => [option.value, option])
         ).values()
       );
@@ -68,8 +81,8 @@ export const useSupportsProductsFilter = (filterStore: FiltersStore) => {
 
 function buildSupportsProductsWhere(
   filterStore: FiltersStore
-): CSupportsProductsBoolExp {
-  const conditions: CSupportsProductsBoolExp[] = [];
+): SupportsProductsBoolExp {
+  const conditions: SupportsProductsBoolExp[] = [];
 
   if (isNotEmpty(siteConfig.overrideFilterValues.supportsProducts)) {
     conditions.push({

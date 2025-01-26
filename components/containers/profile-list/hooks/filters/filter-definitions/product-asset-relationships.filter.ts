@@ -1,9 +1,9 @@
 import { execute } from '@/lib/graphql/execute';
-import { useFilter, MultiSelectFilterProps } from '../../use-filter';
-import { validateAndFormatOptions, parseAsId } from '../utils';
-import { FiltersStore } from '../../use-profile-filters';
-import { useQueryState, parseAsArrayOf } from 'nuqs';
 import { graphql } from '@/lib/graphql/generated';
+import { parseAsArrayOf, useQueryState } from 'nuqs';
+import { useFilter } from '../../use-filter';
+import { FiltersStore } from '../../use-profile-filters';
+import { parseAsId, validateAndFormatOptions } from '../utils';
 
 const filterId = 'productAssetRelationships';
 
@@ -24,7 +24,7 @@ export const useProductAssetRelationshipsFilter = (
       const where = {};
       const data = await execute(
         graphql(`
-          query getProductAssetRelationshipsOptions($where: CAssetsBoolExp) {
+          query getProductAssetRelationshipsOptions($where: AssetsBoolExp) {
             assets(where: $where) {
               ticker
             }
@@ -36,7 +36,7 @@ export const useProductAssetRelationshipsFilter = (
         ?.map(item => ({
           value: item.ticker,
           label: item.ticker,
-          description: null
+          description: undefined
         }))
         .filter(option => option.label?.trim());
       return validateAndFormatOptions(options);

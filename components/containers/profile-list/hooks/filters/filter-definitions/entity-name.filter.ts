@@ -1,9 +1,9 @@
 import { execute } from '@/lib/graphql/execute';
-import { useFilter, MultiSelectFilterProps } from '../../use-filter';
-import { validateAndFormatOptions, parseAsId } from '../utils';
-import { FiltersStore } from '../../use-profile-filters';
-import { useQueryState, parseAsArrayOf } from 'nuqs';
 import { graphql } from '@/lib/graphql/generated';
+import { parseAsArrayOf, useQueryState } from 'nuqs';
+import { useFilter } from '../../use-filter';
+import { FiltersStore } from '../../use-profile-filters';
+import { parseAsId, validateAndFormatOptions } from '../utils';
 
 const filterId = 'entityName';
 
@@ -22,7 +22,7 @@ export const useEntityNameFilter = (filterStore: FiltersStore) => {
       const where = {};
       const data = await execute(
         graphql(`
-          query getEntityNameOptions($where: CEntitiesBoolExp) {
+          query getEntityNameOptions($where: EntitiesBoolExp) {
             entities(where: $where) {
               label: name
               value: id

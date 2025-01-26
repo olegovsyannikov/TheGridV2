@@ -1,15 +1,15 @@
 import { execute } from '@/lib/graphql/execute';
-import { useFilter } from '../../use-filter';
-import { validateAndFormatOptions, parseAsId, mergeConditions } from '../utils';
-import { FiltersStore } from '../../use-profile-filters';
-import { useQueryState, parseAsArrayOf } from 'nuqs';
 import { graphql } from '@/lib/graphql/generated';
-import { isNotEmpty } from '@/lib/utils/is-not-empty';
 import {
-  CProfileInfosBoolExp,
-  CProfileSectorsBoolExp
+  ProfileInfosBoolExp,
+  ProfileSectorsBoolExp
 } from '@/lib/graphql/generated/graphql';
 import { siteConfig } from '@/lib/site-config';
+import { isNotEmpty } from '@/lib/utils/is-not-empty';
+import { parseAsArrayOf, useQueryState } from 'nuqs';
+import { useFilter } from '../../use-filter';
+import { FiltersStore } from '../../use-profile-filters';
+import { mergeConditions, parseAsId, validateAndFormatOptions } from '../utils';
 
 const filterId = 'profileSectors';
 
@@ -29,8 +29,8 @@ export const useProfileSectorsFilter = (filterStore: FiltersStore) => {
       const data = await execute(
         graphql(`
           query getProfileSectorsOptions(
-            $where: CProfileSectorsBoolExp
-            $aggregateInput: CProfileInfosFilterInput
+            $where: ProfileSectorsBoolExp
+            $aggregateInput: ProfileInfosFilterInput
           ) {
             profileSectors(where: $where) {
               label: name
@@ -67,8 +67,8 @@ export const useProfileSectorsFilter = (filterStore: FiltersStore) => {
 
 function buildProfileSectorsWhere(
   filterStore: FiltersStore
-): CProfileSectorsBoolExp {
-  const conditions: CProfileSectorsBoolExp[] = [];
+): ProfileSectorsBoolExp {
+  const conditions: ProfileSectorsBoolExp[] = [];
 
   if (
     isNotEmpty(filterStore.tagsFilter) ||
@@ -134,8 +134,8 @@ function buildProfileSectorsWhere(
   return mergeConditions(conditions);
 }
 
-function buildAggregateInput(filterStore: FiltersStore): CProfileInfosBoolExp {
-  const conditions: Array<CProfileInfosBoolExp> = [];
+function buildAggregateInput(filterStore: FiltersStore): ProfileInfosBoolExp {
+  const conditions: Array<ProfileInfosBoolExp> = [];
 
   if (
     isNotEmpty(filterStore.tagsFilter) ||

@@ -1,28 +1,28 @@
 'use client';
 
-import { ProfileCardDataPoint } from './profile-card-data-point';
-import { ProfileCardFeature } from './profile-card-feature';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { paths } from '@/lib/routes/paths';
-import { Badge } from '@/components/ui/badge';
-import { siteConfig } from '@/lib/site-config';
-import {
-  extractSocialUrls,
-  extractUrls,
-  UrlTypeIconLinks
-} from '@/components/containers/url-type-icon/url-type-icon-list';
-import { useProfileFiltersContext } from '@/providers/filters-provider';
-import { Banknote, Package } from 'lucide-react';
+import { AssetCard } from '@/components/containers/profile-detail/components/asset-card';
 import { ItemWithSheet } from '@/components/containers/profile-detail/components/Item-with-sheet';
 import { ProductCard } from '@/components/containers/profile-detail/components/product-card';
-import { AssetCard } from '@/components/containers/profile-detail/components/asset-card';
+import {
+    extractSocialUrls,
+    extractUrls,
+    UrlTypeIconLinks
+} from '@/components/containers/url-type-icon/url-type-icon-list';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { FragmentType, graphql, useFragment } from '@/lib/graphql/generated';
+import { paths } from '@/lib/routes/paths';
+import { siteConfig } from '@/lib/site-config';
+import { useProfileFiltersContext } from '@/providers/filters-provider';
 import { format } from 'date-fns';
-import { graphql, FragmentType, useFragment } from '@/lib/graphql/generated';
+import { Banknote, Package } from 'lucide-react';
+import Link from 'next/link';
+import { ProfileCardDataPoint } from './profile-card-data-point';
+import { ProfileCardFeature } from './profile-card-feature';
 
 export const ProfileCardFragment = graphql(`
-  fragment ProfileCardFragment on CProfileInfos {
+  fragment ProfileCardFragment on ProfileInfos {
     name
     logo
     id
@@ -117,8 +117,8 @@ export const ProfileCard = ({ profile: profileData }: ProfileCardCardProps) => {
                 {validLogoUrl && (
                   <AvatarImage
                     className="object-scale-down"
-                    src={profile.logo}
-                    alt={profile.name}
+                    src={profile.logo ?? undefined}
+                    alt={profile.name ?? ''}
                   />
                 )}
                 <AvatarFallback className="bg-white">No logo</AvatarFallback>

@@ -1,15 +1,15 @@
 import { execute } from '@/lib/graphql/execute';
-import { useFilter } from '../../use-filter';
-import { validateAndFormatOptions, parseAsId, mergeConditions } from '../utils';
-import { FiltersStore } from '../../use-profile-filters';
-import { useQueryState, parseAsArrayOf } from 'nuqs';
 import { graphql } from '@/lib/graphql/generated';
-import { isNotEmpty } from '@/lib/utils/is-not-empty';
 import {
-  CTagsBoolExp,
-  CProfileTagsBoolExp
+  ProfileTagsBoolExp,
+  TagsBoolExp
 } from '@/lib/graphql/generated/graphql';
 import { siteConfig } from '@/lib/site-config';
+import { isNotEmpty } from '@/lib/utils/is-not-empty';
+import { parseAsArrayOf, useQueryState } from 'nuqs';
+import { useFilter } from '../../use-filter';
+import { FiltersStore } from '../../use-profile-filters';
+import { mergeConditions, parseAsId, validateAndFormatOptions } from '../utils';
 
 const filterId = 'tags';
 
@@ -29,8 +29,8 @@ export const useTagsFilter = (filterStore: FiltersStore) => {
       const data = await execute(
         graphql(`
           query getTagsOptions(
-            $where: CTagsBoolExp
-            $aggregateInput: CProfileTagsFilterInput
+            $where: TagsBoolExp
+            $aggregateInput: ProfileTagsFilterInput
           ) {
             tags(where: $where) {
               value: id
@@ -76,8 +76,8 @@ export const useTagsFilter = (filterStore: FiltersStore) => {
   });
 };
 
-function buildTagsWhere(filterStore: FiltersStore): CTagsBoolExp {
-  const conditions: CTagsBoolExp[] = [];
+function buildTagsWhere(filterStore: FiltersStore): TagsBoolExp {
+  const conditions: TagsBoolExp[] = [];
 
   if (isNotEmpty(filterStore.profileSectorsFilter)) {
     conditions.push({
@@ -139,8 +139,8 @@ function buildTagsWhere(filterStore: FiltersStore): CTagsBoolExp {
   return mergeConditions(conditions);
 }
 
-function buildAggregateInput(filterStore: FiltersStore): CProfileTagsBoolExp {
-  const conditions: Array<CProfileTagsBoolExp> = [];
+function buildAggregateInput(filterStore: FiltersStore): ProfileTagsBoolExp {
+  const conditions: Array<ProfileTagsBoolExp> = [];
 
   if (isNotEmpty(filterStore.profileSectorsFilter)) {
     conditions.push({

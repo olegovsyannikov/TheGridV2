@@ -1,16 +1,16 @@
 'use client';
 
-import { ProfileDataCard, ProfileDataCardProps } from './profile-data-card';
-import { CardTitle } from '@/components/ui/card';
 import {
   extractUrls,
   UrlTypeIconLinks
 } from '@/components/containers/url-type-icon/url-type-icon-list';
+import { CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { FragmentType, graphql, useFragment } from '@/lib/graphql/generated';
+import { ProfileDataCard, ProfileDataCardProps } from './profile-data-card';
 
 export const EntityFieldsFragment = graphql(`
-  fragment EntityFieldsFragment on CEntities {
+  fragment EntityFieldsFragment on Entities {
     name
     tradeName
     taxIdentificationNumber

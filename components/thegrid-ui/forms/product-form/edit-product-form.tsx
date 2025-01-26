@@ -1,19 +1,19 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Form, FormMessage } from '@/components/ui/form';
 import { toast } from '@/components/ui/use-toast';
 import {
-  CProducts,
-  ProductFieldsFragmentFragment
+  ProductFieldsFragmentFragment,
+  Products
 } from '@/lib/graphql/generated/graphql';
 import { ApiError, ApiResponse, useRestApiClient } from '@/lib/rest-api/client';
-import { ProductFormFields } from './product-form-fields';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useProductsApi } from '@/lib/rest-api/products';
-import { Form, FormMessage } from '@/components/ui/form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { ProductFormFields } from './product-form-fields';
 
 const dataSchema = z.object({
   products: z.object({
@@ -48,7 +48,7 @@ export function EditProductForm({
     error
   } = useMutation<ApiResponse, ApiError, FormData>({
     mutationFn: async (data: FormData) => {
-      const productData: Partial<CProducts> = {
+      const productData: Partial<Products> = {
         name: data.products.name,
         productTypeId: data.products.productType,
         description: data.products.description,

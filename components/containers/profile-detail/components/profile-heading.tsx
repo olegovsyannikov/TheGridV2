@@ -1,18 +1,18 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { QueryDialogButton } from '@/components/containers/query-dialog-button';
-import { siteConfig } from '@/lib/site-config';
 import {
   extractSocialUrls,
   extractUrls,
   UrlTypeIconLinks
 } from '@/components/containers/url-type-icon/url-type-icon-list';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { FragmentType, graphql, useFragment } from '@/lib/graphql/generated';
+import { siteConfig } from '@/lib/site-config';
 import { ProfileDetailQuery } from '../profile-detail';
 
 export const ProfileHeadingFragment = graphql(`
-  fragment ProfileHeadingFragment on CProfileInfos {
+  fragment ProfileHeadingFragment on ProfileInfos {
     logo
     name
     urls(order_by: { urlTypeId: Asc }) {
@@ -58,8 +58,8 @@ export const ProfileHeading = ({
             {validLogoUrl && (
               <AvatarImage
                 className="object-scale-down"
-                src={profileData?.logo}
-                alt={profileData?.name}
+                src={profileData?.logo ?? undefined}
+                alt={profileData?.name ?? ''}
               />
             )}
             <AvatarFallback className="bg-white">No logo</AvatarFallback>

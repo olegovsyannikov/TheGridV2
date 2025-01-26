@@ -1,12 +1,12 @@
 import { execute } from '@/lib/graphql/execute';
-import { useFilter } from '../../use-filter';
-import { validateAndFormatOptions, parseAsId, mergeConditions } from '../utils';
-import { FiltersStore } from '../../use-profile-filters';
-import { useQueryState, parseAsArrayOf } from 'nuqs';
 import { graphql } from '@/lib/graphql/generated';
-import { isNotEmpty } from '@/lib/utils/is-not-empty';
-import { CProductsBoolExp } from '@/lib/graphql/generated/graphql';
+import { ProductsBoolExp } from '@/lib/graphql/generated/graphql';
 import { siteConfig } from '@/lib/site-config';
+import { isNotEmpty } from '@/lib/utils/is-not-empty';
+import { parseAsArrayOf, useQueryState } from 'nuqs';
+import { useFilter } from '../../use-filter';
+import { FiltersStore } from '../../use-profile-filters';
+import { mergeConditions, parseAsId, validateAndFormatOptions } from '../utils';
 
 const filterId = 'productDeployedOn';
 
@@ -25,7 +25,7 @@ export const useProductDeployedOnFilter = (filterStore: FiltersStore) => {
     getOptions: async () => {
       const data = await execute(
         graphql(`
-          query getProductDeployedOnProductsOptions($where: CProductsBoolExp) {
+          query getProductDeployedOnProductsOptions($where: ProductsBoolExp) {
             products(where: $where) {
               name
               id
@@ -62,8 +62,8 @@ export const useProductDeployedOnFilter = (filterStore: FiltersStore) => {
 
 function buildDeployedOnProductsWhere(
   filterStore: FiltersStore
-): CProductsBoolExp {
-  const conditions: CProductsBoolExp[] = [];
+): ProductsBoolExp {
+  const conditions: ProductsBoolExp[] = [];
 
   if (isNotEmpty(siteConfig.overrideFilterValues.productDeployedOn)) {
     conditions.push({

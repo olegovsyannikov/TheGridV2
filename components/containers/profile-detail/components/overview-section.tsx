@@ -1,15 +1,15 @@
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
-import { ReactNode } from 'react';
 import { Badge } from '@/components/ui/badge';
-import Link from 'next/link';
+import { Card, CardContent } from '@/components/ui/card';
+import { FragmentType, graphql, useFragment } from '@/lib/graphql/generated';
 import { paths } from '@/lib/routes/paths';
 import { TagIcon } from 'lucide-react';
-import { FragmentType, graphql, useFragment } from '@/lib/graphql/generated';
+import Link from 'next/link';
+import { ReactNode } from 'react';
 
 export const ProfileFragment = graphql(`
-  fragment ProfileFragment on CProfileInfos {
+  fragment ProfileFragment on ProfileInfos {
     profileSector {
       name
     }

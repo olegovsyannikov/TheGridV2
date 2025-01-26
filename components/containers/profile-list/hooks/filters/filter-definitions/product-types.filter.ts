@@ -1,15 +1,15 @@
 import { execute } from '@/lib/graphql/execute';
-import { useFilter, MultiSelectFilterProps } from '../../use-filter';
-import { validateAndFormatOptions, parseAsId, mergeConditions } from '../utils';
-import { FiltersStore } from '../../use-profile-filters';
-import { useQueryState, parseAsArrayOf } from 'nuqs';
 import { graphql } from '@/lib/graphql/generated';
-import { isNotEmpty } from '@/lib/utils/is-not-empty';
 import {
-  CProductsBoolExp,
-  CProductTypesBoolExp
+  ProductsBoolExp,
+  ProductTypesBoolExp
 } from '@/lib/graphql/generated/graphql';
 import { siteConfig } from '@/lib/site-config';
+import { isNotEmpty } from '@/lib/utils/is-not-empty';
+import { parseAsArrayOf, useQueryState } from 'nuqs';
+import { useFilter } from '../../use-filter';
+import { FiltersStore } from '../../use-profile-filters';
+import { mergeConditions, parseAsId, validateAndFormatOptions } from '../utils';
 
 const filterId = 'productTypes';
 
@@ -29,8 +29,8 @@ export const useProductTypesFilter = (filterStore: FiltersStore) => {
       const data = await execute(
         graphql(`
           query getProductTypeOptions(
-            $where: CProductTypesBoolExp
-            $aggregateInput: CProductsFilterInput
+            $where: ProductTypesBoolExp
+            $aggregateInput: ProductsFilterInput
           ) {
             productTypes(where: $where) {
               label: name
@@ -71,8 +71,8 @@ export const useProductTypesFilter = (filterStore: FiltersStore) => {
 
 function buildProfileSectorsWhere(
   filterStore: FiltersStore
-): CProductTypesBoolExp {
-  const conditions: CProductTypesBoolExp[] = [];
+): ProductTypesBoolExp {
+  const conditions: ProductTypesBoolExp[] = [];
 
   if (
     isNotEmpty(filterStore.tagsFilter) ||
@@ -141,8 +141,8 @@ function buildProfileSectorsWhere(
   return mergeConditions(conditions);
 }
 
-function buildAggregateInput(filterStore: FiltersStore): CProductsBoolExp {
-  const conditions: Array<CProductsBoolExp> = [];
+function buildAggregateInput(filterStore: FiltersStore): ProductsBoolExp {
+  const conditions: Array<ProductsBoolExp> = [];
 
   if (isNotEmpty(filterStore.tagsFilter)) {
     conditions.push({

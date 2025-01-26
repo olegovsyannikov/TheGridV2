@@ -1,22 +1,22 @@
 'use client';
 
-import { paths } from '@/lib/routes/paths';
-import { ProfileDataCard, ProfileDataCardProps } from './profile-data-card';
-import { Package } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Separator } from '@radix-ui/react-separator';
-import { CardTitle } from '@/components/ui/card';
 import {
   extractUrls,
   UrlTypeIconLinks
 } from '@/components/containers/url-type-icon/url-type-icon-list';
-import Link from 'next/link';
-import { InlineDataPoint } from './inline-data-point';
-import { ContractAddressesBadge } from './contract-address-badge';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import { FragmentType, graphql, useFragment } from '@/lib/graphql/generated';
+import { paths } from '@/lib/routes/paths';
+import { Package } from 'lucide-react';
+import Link from 'next/link';
+import { ContractAddressesBadge } from './contract-address-badge';
+import { InlineDataPoint } from './inline-data-point';
+import { ProfileDataCard, ProfileDataCardProps } from './profile-data-card';
 
 export const AssetFragment = graphql(`
-  fragment AssetFieldsFragment on CAssets {
+  fragment AssetFieldsFragment on Assets {
     ticker
     rootId
     name
