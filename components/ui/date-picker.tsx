@@ -20,7 +20,8 @@ export interface DatePickerProps {
 }
 
 export function DatePicker({ value, onChange, error, className }: DatePickerProps) {
-  const date = value ? new Date(value) : undefined;
+  const isValidDate = value && value !== '0000-00-00' && !isNaN(new Date(value).getTime());
+  const date = isValidDate ? new Date(value) : undefined;
 
   return (
     <Popover>

@@ -46,6 +46,7 @@ export type ProfileMetadata = {
   id: string;
   slug: string;
   name: string;
+  rootId: string;
 };
 
 export type ProfileDetailProps = {
@@ -101,19 +102,18 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
         icon={<Package className="h-6 w-6" />}
       >
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {!Boolean(profile.root?.products?.length) && <p>No products found</p>}
           {Boolean(profile.root?.products?.length) &&
             profile.root?.products?.map(product => (
               <ProductCard key={product.id} product={product} />
             ))}
-          <div className="flex h-full min-h-[200px] items-center justify-center rounded-lg border-2 border-dashed">
+          <div className="flex h-full min-h-[200px] items-center justify-center rounded-xl border-2 border-dashed">
             <CreateProductOverlay
               triggerNode={
                 <Button variant="ghost" className="h-20 w-20" size="icon">
                   <Plus className="h-10 w-10" />
                 </Button>
               }
-              rootId={metadata?.id}
+              rootId={metadata?.rootId}
             />
           </div>
         </div>
