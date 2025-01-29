@@ -3,7 +3,8 @@ import {
   Assets
 } from '@/lib/graphql/generated/graphql';
 import { z } from 'zod';
-import { generateZodSchema, SchemaDataType } from '../base/types';
+import { SchemaDataType } from '../base/types';
+import { generateZodSchema } from '../base/utils';
 import { assetFields } from './schema';
 
 // Generate schema from field definitions
