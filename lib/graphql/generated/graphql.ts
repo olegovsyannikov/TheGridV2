@@ -1623,7 +1623,7 @@ export type Query = {
   countries?: Maybe<Array<Countries>>;
   countriesAggregate?: Maybe<CountriesAggExp>;
   countriesById?: Maybe<Countries>;
-  ddeploymentTypes?: Maybe<Array<DeploymentTypes>>;
+  deploymentTypes?: Maybe<Array<DeploymentTypes>>;
   deploymentTypesAggregate?: Maybe<DeploymentTypesAggExp>;
   deploymentTypesById?: Maybe<DeploymentTypes>;
   derivativeAssets?: Maybe<Array<DerivativeAssets>>;
@@ -1848,7 +1848,7 @@ export type QueryCountriesByIdArgs = {
 };
 
 
-export type QueryDdeploymentTypesArgs = {
+export type QueryDeploymentTypesArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<DeploymentTypesOrderBy>>;
@@ -3239,6 +3239,8 @@ export type ProductFieldsFragmentFragment = { __typename?: 'Products', rootId: s
 
 export type ProfileHeadingFragmentFragment = { __typename?: 'ProfileInfos', logo?: string | null, name: string, urls?: Array<{ __typename?: 'ProfileInfoUrls', url: string, urlType?: { __typename?: 'UrlTypes', name: string } | null }> | null, root?: { __typename?: 'Roots', socials?: Array<{ __typename?: 'Socials', name: string, socialType?: { __typename?: 'SocialTypes', name: string } | null, urls?: Array<{ __typename?: 'SocialUrls', url?: string | null }> | null }> | null } | null } & { ' $fragmentName'?: 'ProfileHeadingFragmentFragment' };
 
+export type ProfileInfoFragmentFragment = { __typename?: 'ProfileInfos', id: string, name: string, tagLine: string, descriptionShort: string, descriptionLong: string, foundingDate?: string | null, profileType?: { __typename?: 'ProfileTypes', id: string, name: string, definition: string } | null, profileStatus?: { __typename?: 'ProfileStatuses', id: string, name: string, definition: string } | null, profileSector?: { __typename?: 'ProfileSectors', id: string, name: string, definition: string } | null } & { ' $fragmentName'?: 'ProfileInfoFragmentFragment' };
+
 export type GetProfileDataQueryVariables = Exact<{
   where?: InputMaybe<ProfileInfosBoolExp>;
 }>;
@@ -3255,7 +3257,7 @@ export type GetProfileDataQuery = { __typename?: 'Query', profileInfos?: Array<(
         { __typename?: 'Entities', id: string }
         & { ' $fragmentRefs'?: { 'EntityFieldsFragmentFragment': EntityFieldsFragmentFragment } }
       )> | null } | null }
-    & { ' $fragmentRefs'?: { 'ProfileFragmentFragment': ProfileFragmentFragment;'ProfileHeadingFragmentFragment': ProfileHeadingFragmentFragment } }
+    & { ' $fragmentRefs'?: { 'ProfileInfoFragmentFragment': ProfileInfoFragmentFragment;'ProfileFragmentFragment': ProfileFragmentFragment;'ProfileHeadingFragmentFragment': ProfileHeadingFragmentFragment } }
   )> | null };
 
 export type ProfileCardFragmentFragment = { __typename?: 'ProfileInfos', name: string, logo?: string | null, id: string, tagLine: string, descriptionShort: string, profileTypeId?: string | null, profileStatusId?: string | null, profileSectorId?: string | null, foundingDate?: string | null, profileSector?: { __typename?: 'ProfileSectors', name: string, id: string, definition: string } | null, profileStatus?: { __typename?: 'ProfileStatuses', name: string, id: string, definition: string } | null, profileType?: { __typename?: 'ProfileTypes', name: string, id: string, definition: string } | null, urls?: Array<{ __typename?: 'ProfileInfoUrls', url: string, urlType?: { __typename?: 'UrlTypes', name: string, id: string, definition: string } | null }> | null, mainProduct?: { __typename?: 'Roots', products?: Array<{ __typename?: 'Products', name: string, productType?: { __typename?: 'ProductTypes', name: string } | null }> | null } | null, root?: { __typename?: 'Roots', urlMain: string, slug: string, assets?: Array<(
@@ -3502,6 +3504,31 @@ export const ProfileHeadingFragmentFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"ProfileHeadingFragment"}) as unknown as TypedDocumentString<ProfileHeadingFragmentFragment, unknown>;
+export const ProfileInfoFragmentFragmentDoc = new TypedDocumentString(`
+    fragment ProfileInfoFragment on ProfileInfos {
+  id
+  name
+  tagLine
+  descriptionShort
+  descriptionLong
+  foundingDate
+  profileType {
+    id
+    name
+    definition
+  }
+  profileStatus {
+    id
+    name
+    definition
+  }
+  profileSector {
+    id
+    name
+    definition
+  }
+}
+    `, {"fragmentName":"ProfileInfoFragment"}) as unknown as TypedDocumentString<ProfileInfoFragmentFragment, unknown>;
 export const ProductFieldsFragmentFragmentDoc = new TypedDocumentString(`
     fragment ProductFieldsFragment on Products {
   rootId
@@ -3871,6 +3898,7 @@ export const GetProfileDataDocument = new TypedDocumentString(`
     tagLine
     descriptionShort
     descriptionLong
+    ...ProfileInfoFragment
     ...ProfileFragment
     ...ProfileHeadingFragment
     root {
@@ -4110,6 +4138,29 @@ fragment ProfileHeadingFragment on ProfileInfos {
         url
       }
     }
+  }
+}
+fragment ProfileInfoFragment on ProfileInfos {
+  id
+  name
+  tagLine
+  descriptionShort
+  descriptionLong
+  foundingDate
+  profileType {
+    id
+    name
+    definition
+  }
+  profileStatus {
+    id
+    name
+    definition
+  }
+  profileSector {
+    id
+    name
+    definition
   }
 }`) as unknown as TypedDocumentString<GetProfileDataQuery, GetProfileDataQueryVariables>;
 export const SearchProfilesDocument = new TypedDocumentString(`

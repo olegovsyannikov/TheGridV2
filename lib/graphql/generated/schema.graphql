@@ -1254,7 +1254,7 @@ type Query {
   countries(limit: Int, offset: Int, order_by: [CountriesOrderBy!], where: CountriesBoolExp): [Countries!]
   countriesAggregate(filter_input: CountriesFilterInput): CountriesAggExp
   countriesById(id: String1!): Countries
-  ddeploymentTypes(limit: Int, offset: Int, order_by: [DeploymentTypesOrderBy!], where: DeploymentTypesBoolExp): [DeploymentTypes!]
+  deploymentTypes(limit: Int, offset: Int, order_by: [DeploymentTypesOrderBy!], where: DeploymentTypesBoolExp): [DeploymentTypes!]
   deploymentTypesAggregate(filter_input: DeploymentTypesFilterInput): DeploymentTypesAggExp
   deploymentTypesById(id: String1!): DeploymentTypes
   derivativeAssets(limit: Int, offset: Int, order_by: [DerivativeAssetsOrderBy!], where: DerivativeAssetsBoolExp): [DerivativeAssets!]

@@ -14,6 +14,7 @@ import { ProductCard } from './components/product-card';
 import { ProfileDataPoint } from './components/profile-data-point';
 import { ProfileDataSection } from './components/profile-data-section';
 import { ProfileHeading } from './components/profile-heading';
+import { ProfileInfo } from './components/profile-info';
 import ProfileLoading from './components/profile-loading';
 import ProfileNotFound from './components/profile-not-found';
 
@@ -23,6 +24,7 @@ export const ProfileDetailQuery = graphql(`
       tagLine
       descriptionShort
       descriptionLong
+      ...ProfileInfoFragment
       ...ProfileFragment
       ...ProfileHeadingFragment
       root {
@@ -96,6 +98,8 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
       </section>
 
       <OverviewSection profile={profile} />
+
+      <ProfileInfo profile={profile} />
 
       <ProfileDataSection
         title="Products"

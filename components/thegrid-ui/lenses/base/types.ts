@@ -1,6 +1,7 @@
 import {
   AssetFieldsFragmentFragment,
-  ProductFieldsFragmentFragment
+  ProductFieldsFragmentFragment,
+  ProfileInfoFragmentFragment
 } from '@/lib/graphql/generated/graphql';
 import { TgsFieldNames } from '@/lib/tgs';
 
@@ -71,7 +72,8 @@ export interface CreateLensOverlayProps {
 
 export type LensFieldsFragmentFragment =
   | AssetFieldsFragmentFragment
-  | ProductFieldsFragmentFragment;
+  | ProductFieldsFragmentFragment
+  | ProfileInfoFragmentFragment;
 
 export interface EditLensOverlayProps {
   lensData?: LensFieldsFragmentFragment;
