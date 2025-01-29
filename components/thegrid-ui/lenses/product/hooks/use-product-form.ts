@@ -1,27 +1,11 @@
 import { useRestApiClient } from '@/lib/rest-api/client';
 import { useProductsApi } from '@/lib/rest-api/products';
 import { useLensForm } from '../../base/hooks/use-lens-form';
+import { EditLensFormProps, UseLensFormProps } from '../../base/types';
 import { productFields } from '../schema';
-import { EditProductFormProps, ProductFormData, productSchema } from '../types';
+import { ProductFormData, productSchema } from '../types';
 
-interface BaseFormProps {
-  onSuccess?: () => void;
-  onCancel?: () => void;
-}
-
-interface CreateFormProps extends BaseFormProps {
-  mode: 'create';
-  rootId?: string;
-}
-
-interface EditFormProps extends BaseFormProps {
-  mode: 'edit';
-  product?: EditProductFormProps['product'];
-}
-
-type UseProductFormProps = CreateFormProps | EditFormProps;
-
-export function useProductForm(props: UseProductFormProps) {
+export function useProductForm(props: UseLensFormProps) {
   const client = useRestApiClient();
   const productsApi = useProductsApi(client);
 
@@ -36,10 +20,10 @@ export function useProductForm(props: UseProductFormProps) {
 
   return useLensForm<
     ProductFormData,
-    NonNullable<EditProductFormProps['product']>
+    NonNullable<EditLensFormProps['lensData']>
   >({
     ...props,
-    entity: props.mode === 'edit' ? props.product : undefined,
+    entity: props.mode === 'edit' ? props.lensData : undefined,
     config,
     api: productsApi
   });

@@ -1,20 +1,20 @@
 'use client';
 
 import { ControlledOverlay } from '@/components/ui/controlled-overlay';
-import { EditProductOverlayProps } from '../types';
+import { EditLensOverlayProps } from '../../base/types';
 import { EditProductForm } from './edit-product-form';
 
 export function EditProductOverlay({
-  product,
+  lensData,
   triggerNode
-}: EditProductOverlayProps) {
+}: EditLensOverlayProps) {
   return (
     <ControlledOverlay
-      title={`Edit ${product?.name}`}
+      title={`Edit ${lensData?.name}`}
       triggerNode={triggerNode}
       render={({ closeDialog }) => (
         <EditProductForm
-          product={product}
+          lensData={lensData}
           onSuccess={closeDialog}
           onCancel={closeDialog}
         />

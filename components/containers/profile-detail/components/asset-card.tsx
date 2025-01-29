@@ -112,7 +112,7 @@ export const AssetCard = ({ asset: assetData, variant }: AssetCardProps) => {
             </>
           )}
           <EditAssetOverlay
-            asset={asset}
+            lensData={asset}
             triggerNode={
               <Button variant="ghost" size="icon" className="ml-auto">
                 <Edit className="h-4 w-4" />

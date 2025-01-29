@@ -1,13 +1,13 @@
 'use client';
 
 import { ControlledOverlay } from '@/components/ui/controlled-overlay';
-import { CreateAssetOverlayProps } from '../types';
+import { CreateLensOverlayProps } from '../../base/types';
 import { CreateAssetForm } from './create-asset-form';
 
 export function CreateAssetOverlay({
   rootId,
   triggerNode
-}: CreateAssetOverlayProps) {
+}: CreateLensOverlayProps) {
   return (
     <ControlledOverlay
       title="Create Asset"

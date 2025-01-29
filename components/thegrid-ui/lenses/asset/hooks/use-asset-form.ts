@@ -1,27 +1,11 @@
 import { useAssetsApi } from '@/lib/rest-api/assets';
 import { useRestApiClient } from '@/lib/rest-api/client';
 import { useLensForm } from '../../base/hooks/use-lens-form';
+import { EditLensFormProps, UseLensFormProps } from '../../base/types';
 import { assetFields } from '../schema';
-import { AssetFormData, assetSchema, EditAssetFormProps } from '../types';
+import { AssetFormData, assetSchema } from '../types';
 
-interface BaseFormProps {
-  onSuccess?: () => void;
-  onCancel?: () => void;
-}
-
-interface CreateFormProps extends BaseFormProps {
-  mode: 'create';
-  rootId?: string;
-}
-
-interface EditFormProps extends BaseFormProps {
-  mode: 'edit';
-  asset?: EditAssetFormProps['asset'];
-}
-
-type UseAssetFormProps = CreateFormProps | EditFormProps;
-
-export function useAssetForm(props: UseAssetFormProps) {
+export function useAssetForm(props: UseLensFormProps) {
   const client = useRestApiClient();
   const assetsApi = useAssetsApi(client);
 
@@ -34,10 +18,12 @@ export function useAssetForm(props: UseAssetFormProps) {
     updateMessage: 'The asset has been updated successfully.'
   };
 
-  return useLensForm<AssetFormData, NonNullable<EditAssetFormProps['asset']>>({
-    ...props,
-    entity: props.mode === 'edit' ? props.asset : undefined,
-    config,
-    api: assetsApi
-  });
+  return useLensForm<AssetFormData, NonNullable<EditLensFormProps['lensData']>>(
+    {
+      ...props,
+      entity: props.mode === 'edit' ? props.lensData : undefined,
+      config,
+      api: assetsApi
+    }
+  );
 }

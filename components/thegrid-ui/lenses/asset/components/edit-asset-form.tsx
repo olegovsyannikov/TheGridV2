@@ -1,18 +1,18 @@
 'use client';
 
 import { LensForm } from '../../base/components/lens-form';
+import { EditLensFormProps } from '../../base/types';
 import { useAssetForm } from '../hooks/use-asset-form';
-import { EditAssetFormProps } from '../types';
 import { AssetFormFields } from './asset-form-fields';
 
 export function EditAssetForm({
-  asset,
+  lensData,
   onSuccess,
   onCancel
-}: EditAssetFormProps) {
+}: EditLensFormProps) {
   const { form, isPending, error, onSubmit } = useAssetForm({
     mode: 'edit',
-    asset,
+    lensData,
     onSuccess,
     onCancel
   });

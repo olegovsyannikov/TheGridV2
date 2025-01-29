@@ -1,13 +1,13 @@
 'use client';
 
 import { ControlledOverlay } from '@/components/ui/controlled-overlay';
-import { CreateProductOverlayProps } from '../types';
+import { CreateLensOverlayProps } from '../../base/types';
 import { CreateProductForm } from './create-product-form';
 
 export function CreateProductOverlay({
   rootId,
   triggerNode
-}: CreateProductOverlayProps) {
+}: CreateLensOverlayProps) {
   return (
     <ControlledOverlay
       title="Create product"

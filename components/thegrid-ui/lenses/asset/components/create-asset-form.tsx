@@ -1,15 +1,15 @@
 'use client';
 
 import { LensForm } from '../../base/components/lens-form';
+import { CreateLensFormProps } from '../../base/types';
 import { useAssetForm } from '../hooks/use-asset-form';
-import { CreateAssetFormProps } from '../types';
 import { AssetFormFields } from './asset-form-fields';
 
 export function CreateAssetForm({
   rootId,
   onSuccess,
   onCancel
-}: CreateAssetFormProps) {
+}: CreateLensFormProps) {
   const { form, isPending, error, onSubmit } = useAssetForm({
     mode: 'create',
     rootId,

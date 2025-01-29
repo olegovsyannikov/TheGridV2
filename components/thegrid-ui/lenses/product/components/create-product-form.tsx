@@ -1,15 +1,15 @@
 'use client';
 
 import { LensForm } from '../../base/components/lens-form';
+import { CreateLensFormProps } from '../../base/types';
 import { useProductForm } from '../hooks/use-product-form';
-import { CreateProductFormProps } from '../types';
 import { ProductFormFields } from './product-form-fields';
 
 export function CreateProductForm({
   rootId,
   onSuccess,
   onCancel
-}: CreateProductFormProps) {
+}: CreateLensFormProps) {
   const { form, isPending, error, onSubmit } = useProductForm({
     mode: 'create',
     rootId,

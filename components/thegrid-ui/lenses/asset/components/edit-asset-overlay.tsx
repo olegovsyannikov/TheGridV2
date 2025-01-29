@@ -1,20 +1,20 @@
 'use client';
 
 import { ControlledOverlay } from '@/components/ui/controlled-overlay';
-import { EditAssetOverlayProps } from '../types';
+import { EditLensOverlayProps } from '../../base/types';
 import { EditAssetForm } from './edit-asset-form';
 
 export function EditAssetOverlay({
-  asset,
+  lensData,
   triggerNode
-}: EditAssetOverlayProps) {
+}: EditLensOverlayProps) {
   return (
     <ControlledOverlay
-      title={`Edit ${asset?.name}`}
+      title={`Edit ${lensData?.name}`}
       triggerNode={triggerNode}
       render={({ closeDialog }) => (
         <EditAssetForm
-          asset={asset}
+          lensData={lensData}
           onSuccess={closeDialog}
           onCancel={closeDialog}
         />

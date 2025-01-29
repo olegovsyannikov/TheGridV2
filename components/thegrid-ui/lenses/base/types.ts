@@ -1,3 +1,7 @@
+import {
+  AssetFieldsFragmentFragment,
+  ProductFieldsFragmentFragment
+} from '@/lib/graphql/generated/graphql';
 import { TgsFieldNames } from '@/lib/tgs';
 
 export type FieldType = 'text' | 'textarea' | 'select' | 'date' | 'boolean';
@@ -58,3 +62,50 @@ export type SchemaDataType<T extends SchemaDefinition> = {
         ? string
         : string | undefined;
 };
+
+// Overlay types
+export interface CreateLensOverlayProps {
+  rootId?: string;
+  triggerNode?: React.ReactNode;
+}
+
+export type LensFieldsFragmentFragment =
+  | AssetFieldsFragmentFragment
+  | ProductFieldsFragmentFragment;
+
+export interface EditLensOverlayProps {
+  lensData?: LensFieldsFragmentFragment;
+  triggerNode?: React.ReactNode;
+}
+
+// Form types
+export interface BaseLensFormProps {
+  onSuccess?: () => void;
+  onCancel?: () => void;
+}
+
+export interface CreateLensFormProps extends BaseLensFormProps {
+  rootId?: string;
+}
+
+export interface EditLensFormProps extends BaseLensFormProps {
+  lensData?: LensFieldsFragmentFragment;
+}
+
+// Hook Types
+interface BaseFormHookProps {
+  onSuccess?: () => void;
+  onCancel?: () => void;
+}
+
+interface CreateFormHookProps extends BaseFormHookProps {
+  mode: 'create';
+  rootId?: string;
+}
+
+interface EditFormHookProps extends BaseFormHookProps {
+  mode: 'edit';
+  lensData?: EditLensFormProps['lensData'];
+}
+
+export type UseLensFormProps = CreateFormHookProps | EditFormHookProps;

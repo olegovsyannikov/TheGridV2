@@ -134,7 +134,7 @@ export const ProductCard = ({
           )}
           <div className="ml-auto">
             <EditProductOverlay
-              product={product}
+              lensData={product}
               triggerNode={
                 <Button
                   variant="ghost"

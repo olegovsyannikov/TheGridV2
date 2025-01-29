@@ -1,18 +1,18 @@
 'use client';
 
 import { LensForm } from '../../base/components/lens-form';
+import { EditLensFormProps } from '../../base/types';
 import { useProductForm } from '../hooks/use-product-form';
-import { EditProductFormProps } from '../types';
 import { ProductFormFields } from './product-form-fields';
 
 export function EditProductForm({
-  product,
+  lensData,
   onSuccess,
   onCancel
-}: EditProductFormProps) {
+}: EditLensFormProps) {
   const { form, isPending, error, onSubmit } = useProductForm({
     mode: 'edit',
-    product,
+    lensData,
     onSuccess,
     onCancel
   });

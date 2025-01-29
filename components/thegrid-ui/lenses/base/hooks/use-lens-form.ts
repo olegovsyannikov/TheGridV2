@@ -4,12 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { DefaultValues, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { SchemaDefinition } from '../types';
 import {
   generateDefaultValues,
   mapEntityToFormData,
-  mapFormDataToEntity,
-  SchemaDefinition
-} from '../types';
+  mapFormDataToEntity
+} from '../utils';
 
 interface BaseLensConfig<TEntity> {
   tableName: string;
