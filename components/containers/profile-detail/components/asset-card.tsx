@@ -4,12 +4,14 @@ import {
   extractUrls,
   UrlTypeIconLinks
 } from '@/components/containers/url-type-icon/url-type-icon-list';
+import { EditAssetOverlay } from '@/components/thegrid-ui/lenses/asset';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { FragmentType, graphql, useFragment } from '@/lib/graphql/generated';
 import { paths } from '@/lib/routes/paths';
-import { Package } from 'lucide-react';
+import { Edit, Package } from 'lucide-react';
 import Link from 'next/link';
 import { ContractAddressesBadge } from './contract-address-badge';
 import { InlineDataPoint } from './inline-data-point';
@@ -109,6 +111,14 @@ export const AssetCard = ({ asset: assetData, variant }: AssetCardProps) => {
               <UrlTypeIconLinks urls={[extractUrls(asset.urls)]} />
             </>
           )}
+          <EditAssetOverlay
+            asset={asset}
+            triggerNode={
+              <Button variant="ghost" size="icon" className="ml-auto">
+                <Edit className="h-4 w-4" />
+              </Button>
+            }
+          />
         </div>
       }
       description={asset.description || 'No description available'}

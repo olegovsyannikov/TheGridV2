@@ -1,42 +1,43 @@
 'use client';
 
 import { TgsField } from '@/components/thegrid-ui/forms/fields/tgs-field';
+import { productFields } from '../schema';
 
 export function ProductFormFields() {
   return (
     <div className="flex flex-col gap-8">
       <TgsField
-        label="Product Name"
-        placeholder="Enter product name..."
-        tgsField="products.name"
+        label={productFields.name.label}
+        placeholder={productFields.name.placeholder}
+        tgsField={productFields.name.tgsField}
       />
       <div className="flex flex-row gap-4">
         <TgsField
-          label="Product Type"
-          placeholder="Select product type..."
-          tgsField="products.productType"
+          label={productFields.productType.label}
+          placeholder={productFields.productType.placeholder}
+          tgsField={productFields.productType.tgsField}
         />
         <TgsField
-          label="Product Status"
-          placeholder="Select product status..."
-          tgsField="products.productStatus"
+          label={productFields.productStatus.label}
+          placeholder={productFields.productStatus.placeholder}
+          tgsField={productFields.productStatus.tgsField}
         />
       </div>
       <TgsField
-        label="Product Description"
-        placeholder="Enter product description..."
-        tgsField="products.description"
+        label={productFields.description.label}
+        placeholder={productFields.description.placeholder}
+        tgsField={productFields.description.tgsField}
       />
       <div className="flex flex-row gap-4">
         <TgsField
-          label="Launch Date"
-          placeholder="Enter launch date..."
-          tgsField="products.launchDate"
+          label={productFields.launchDate.label}
+          placeholder={productFields.launchDate.placeholder}
+          tgsField={productFields.launchDate.tgsField}
         />
         <TgsField
-          label="Is Main Product"
-          placeholder="Select if main product..."
-          tgsField="products.isMainProduct"
+          label={productFields.isMainProduct.label}
+          placeholder={productFields.isMainProduct.placeholder}
+          tgsField={productFields.isMainProduct.tgsField}
         />
       </div>
     </div>

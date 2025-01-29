@@ -3,7 +3,7 @@ import {
   Products
 } from '@/lib/graphql/generated/graphql';
 import { z } from 'zod';
-import { generateZodSchema, SchemaDefinition } from '../base/types';
+import { generateZodSchema, SchemaDataType } from '../base/types';
 import { productFields } from './schema';
 
 // Generate schema from field definitions
@@ -13,18 +13,6 @@ export const productSchema = z.object({
 
 // Types
 export type ProductFormData = z.infer<typeof productSchema>;
-
-// Generate type from schema definition
-type SchemaDataType<T extends SchemaDefinition> = {
-  [K in keyof T]: T[K]['type'] extends 'boolean'
-    ? string // 'true' | 'false' for form values
-    : T[K]['type'] extends 'date'
-      ? string | null
-      : T[K]['required'] extends true
-        ? string
-        : string | undefined;
-};
-
 export type ProductData = SchemaDataType<typeof productFields>;
 
 // Props interfaces

@@ -1,6 +1,7 @@
 'use client';
 
 import { CreateProductOverlay } from '@/components/thegrid-ui/lenses';
+import { CreateAssetOverlay } from '@/components/thegrid-ui/lenses/asset';
 import { Button } from '@/components/ui/button';
 import { execute } from '@/lib/graphql/execute';
 import { graphql } from '@/lib/graphql/generated';
@@ -129,6 +130,16 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
             profile.root?.assets?.map(asset => (
               <AssetCard key={asset.id} asset={asset} />
             ))}
+          <div className="flex h-full min-h-[200px] items-center justify-center rounded-xl border-2 border-dashed">
+            <CreateAssetOverlay
+              triggerNode={
+                <Button variant="ghost" className="h-20 w-20" size="icon">
+                  <Plus className="h-10 w-10" />
+                </Button>
+              }
+              rootId={metadata?.rootId}
+            />
+          </div>
         </div>
       </ProfileDataSection>
 

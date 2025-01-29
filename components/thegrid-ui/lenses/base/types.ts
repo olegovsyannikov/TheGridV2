@@ -1,3 +1,4 @@
+import { TgsFieldNames } from '@/lib/tgs';
 import { z } from 'zod';
 
 export type FieldType = 'text' | 'textarea' | 'select' | 'date' | 'boolean';
@@ -8,7 +9,7 @@ export interface BaseFieldDefinition {
   placeholder?: string;
   required?: boolean;
   description?: string;
-  tgsField?: string; // For dynamic options/validation from TGS
+  tgsField: TgsFieldNames;
 }
 
 export interface TextField extends BaseFieldDefinition {
@@ -48,6 +49,15 @@ export type FieldDefinition =
   | BooleanField;
 
 export type SchemaDefinition = Record<string, FieldDefinition>;
+export type SchemaDataType<T extends SchemaDefinition> = {
+  [K in keyof T]: T[K]['type'] extends 'boolean'
+    ? string
+    : T[K]['type'] extends 'date'
+      ? string | null
+      : T[K]['required'] extends true
+        ? string
+        : string | undefined;
+};
 
 export function generateZodSchema(schema: SchemaDefinition) {
   const schemaFields: Record<string, z.ZodTypeAny> = {};
