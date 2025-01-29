@@ -1,6 +1,6 @@
 'use client';
 
-import { TgsField } from '../fields/tgs-field';
+import { TgsField } from '@/components/thegrid-ui/forms/fields/tgs-field';
 
 export function ProductFormFields() {
   return (

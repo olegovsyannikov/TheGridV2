@@ -1,6 +1,6 @@
 'use client';
 
-import { CreateProductOverlay } from '@/components/thegrid-ui/overlays/create-product-overlay';
+import { CreateProductOverlay } from '@/components/thegrid-ui/lenses';
 import { Button } from '@/components/ui/button';
 import { execute } from '@/lib/graphql/execute';
 import { graphql } from '@/lib/graphql/generated';

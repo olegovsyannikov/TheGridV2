@@ -1,13 +1,8 @@
 'use client';
 
-import { ProductFieldsFragmentFragment } from '@/lib/graphql/generated/graphql';
 import { ControlledOverlay } from '@/components/ui/controlled-overlay';
-import { EditProductForm } from '../forms/product-form/edit-product-form';
-
-type EditProductOverlayProps = {
-  product?: ProductFieldsFragmentFragment;
-  triggerNode?: React.ReactNode;
-};
+import { EditProductOverlayProps } from '../types';
+import { EditProductForm } from './edit-product-form';
 
 export function EditProductOverlay({
   product,

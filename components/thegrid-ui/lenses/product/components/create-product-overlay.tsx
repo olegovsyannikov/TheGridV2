@@ -1,12 +1,8 @@
 'use client';
 
 import { ControlledOverlay } from '@/components/ui/controlled-overlay';
-import { CreateProductForm } from '../forms/product-form/create-product-form';
-
-type CreateProductOverlayProps = {
-  rootId?: string;
-  triggerNode?: React.ReactNode;
-};
+import { CreateProductOverlayProps } from '../types';
+import { CreateProductForm } from './create-product-form';
 
 export function CreateProductOverlay({
   rootId,
