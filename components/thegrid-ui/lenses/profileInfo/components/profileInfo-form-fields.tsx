@@ -12,7 +12,7 @@ export function ProfileInfoFormFields() {
         tgsField={profileInfoFields.name.tgsField}
         isRequired={profileInfoFields.name.required}
       />
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-row gap-4 [&>*]:w-1/2">
         <TgsField
           label={profileInfoFields.profileType.label}
           placeholder={profileInfoFields.profileType.placeholder}
@@ -26,7 +26,7 @@ export function ProfileInfoFormFields() {
           isRequired={profileInfoFields.profileSector.required}
         />
       </div>
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-row gap-4 [&>*]:w-1/2">
         <TgsField
           label={profileInfoFields.profileStatus.label}
           placeholder={profileInfoFields.profileStatus.placeholder}

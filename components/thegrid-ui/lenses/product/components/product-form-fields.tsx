@@ -12,7 +12,7 @@ export function ProductFormFields() {
         tgsField={productFields.name.tgsField}
         isRequired={productFields.name.required}
       />
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-row gap-4 [&>*]:w-1/2">
         <TgsField
           label={productFields.productType.label}
           placeholder={productFields.productType.placeholder}
@@ -32,7 +32,7 @@ export function ProductFormFields() {
         tgsField={productFields.description.tgsField}
         isRequired={productFields.description.required}
       />
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-row gap-4 [&>*]:w-1/2">
         <TgsField
           label={productFields.launchDate.label}
           placeholder={productFields.launchDate.placeholder}

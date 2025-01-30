@@ -18,7 +18,7 @@ export function AssetFormFields() {
         tgsField={assetFields.ticker.tgsField}
         isRequired={assetFields.ticker.required}
       />
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-row gap-4 [&>*]:w-1/2">
         <TgsField
           label={assetFields.assetType.label}
           placeholder={assetFields.assetType.placeholder}
