@@ -1,5 +1,6 @@
 import {
   AssetFieldsFragmentFragment,
+  EntityFieldsFragmentFragment,
   ProductFieldsFragmentFragment,
   ProfileInfoFragmentFragment
 } from '@/lib/graphql/generated/graphql';
@@ -73,6 +74,7 @@ export interface CreateLensOverlayProps {
 export type LensFieldsFragmentFragment =
   | AssetFieldsFragmentFragment
   | ProductFieldsFragmentFragment
+  | EntityFieldsFragmentFragment
   | ProfileInfoFragmentFragment;
 
 export interface EditLensOverlayProps {

@@ -2,6 +2,7 @@
 
 import { CreateProductOverlay } from '@/components/thegrid-ui/lenses';
 import { CreateAssetOverlay } from '@/components/thegrid-ui/lenses/asset';
+import { CreateEntityOverlay } from '@/components/thegrid-ui/lenses/entity';
 import { Button } from '@/components/ui/button';
 import { execute } from '@/lib/graphql/execute';
 import { graphql } from '@/lib/graphql/generated';
@@ -153,11 +154,21 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
         title="Entities"
       >
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {!Boolean(profile.root?.entities?.length) && <p>No entities found</p>}
           {Boolean(profile.root?.entities?.length) &&
             profile.root?.entities?.map(asset => (
               <EntityCard key={asset.id} entity={asset} />
-            ))}
+            ))
+          }
+          <div className="flex h-full min-h-[200px] items-center justify-center rounded-xl border-2 border-dashed">
+            <CreateEntityOverlay
+              triggerNode={
+                <Button variant="ghost" className="h-20 w-20" size="icon">
+                  <Plus className="h-10 w-10" />
+                </Button>
+              }
+              rootId={metadata?.rootId}
+            />
+          </div>
         </div>
       </ProfileDataSection>
     </div>
