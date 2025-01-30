@@ -19,13 +19,15 @@ type TgsSFieldProps = {
   placeholder?: string;
   tgsField: TgsFieldNames;
   fieldName?: string;
+  isRequired?: boolean;
 };
 
 export function TgsField({
   label,
   placeholder,
   tgsField,
-  fieldName
+  fieldName,
+  isRequired = false
 }: TgsSFieldProps) {
   const tgsData = getTgsData(tgsField);
 
@@ -56,7 +58,11 @@ export function TgsField({
           <FormField
             name={tgsField ?? fieldName}
             render={({ field, fieldState }) => (
-              <FieldWrapper label={label} description={tgsData.description}>
+              <FieldWrapper
+                label={label}
+                description={tgsData.description}
+                isRequired={isRequired}
+              >
                 <SelectField
                   {...field}
                   defaultValue={field.value}
@@ -79,7 +85,11 @@ export function TgsField({
           <FormField
             name={tgsField ?? fieldName}
             render={({ field, fieldState }) => (
-              <FieldWrapper label={label} description={tgsData.description}>
+              <FieldWrapper
+                label={label}
+                description={tgsData.description}
+                isRequired={isRequired}
+              >
                 <Input
                   placeholder={placeholder}
                   error={fieldState.error?.message}
@@ -94,7 +104,11 @@ export function TgsField({
           <FormField
             name={tgsField ?? fieldName}
             render={({ field, fieldState }) => (
-              <FieldWrapper label={label} description={tgsData.description}>
+              <FieldWrapper
+                label={label}
+                description={tgsData.description}
+                isRequired={isRequired}
+              >
                 <Textarea
                   placeholder={placeholder}
                   error={fieldState.error?.message}
@@ -109,7 +123,11 @@ export function TgsField({
           <FormField
             name={tgsField ?? fieldName}
             render={({ field, fieldState }) => (
-              <FieldWrapper label={label} description={tgsData.description}>
+              <FieldWrapper
+                label={label}
+                description={tgsData.description}
+                isRequired={isRequired}
+              >
                 <DatePicker
                   error={fieldState.error?.message}
                   {...field}
@@ -129,15 +147,20 @@ export function TgsField({
 const FieldWrapper = ({
   children,
   label,
-  description
+  description,
+  isRequired
 }: {
   children: React.ReactNode;
   label: string;
   description: string;
+  isRequired?: boolean;
 }) => {
   return (
     <FormItem>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel>
+        {label}
+        {isRequired && <span className="ml-1 text-destructive">*</span>}
+      </FormLabel>
       <FormControl>{children}</FormControl>
       <FormMessage />
       <FormDescription>{description}</FormDescription>
