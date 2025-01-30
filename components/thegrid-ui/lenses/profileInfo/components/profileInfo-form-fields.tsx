@@ -58,6 +58,12 @@ export function ProfileInfoFormFields() {
         tgsField={profileInfoFields.descriptionLong.tgsField}
         isRequired={profileInfoFields.descriptionLong.required}
       />
+      <TgsField
+        label={profileInfoFields.logo.label}
+        placeholder={profileInfoFields.logo.placeholder}
+        tgsField={profileInfoFields.logo.tgsField}
+        isRequired={profileInfoFields.logo.required}
+      />
     </div>
   );
 }

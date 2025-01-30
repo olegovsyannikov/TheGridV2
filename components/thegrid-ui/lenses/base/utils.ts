@@ -84,7 +84,7 @@ export function mapEntityToFormData<T extends Record<string, any>>(
 
     switch (field.type) {
       case 'boolean':
-        formData[key] = entity[key] ? 'true' : 'false';
+        formData[key] = Boolean(entity[key]) ? 'true' : 'false';
         break;
       case 'select':
         formData[key] = entity[`${key}Id`] ?? entity[key]?.id ?? '';

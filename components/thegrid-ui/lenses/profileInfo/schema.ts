@@ -52,5 +52,12 @@ export const profileInfoFields: SchemaDefinition = {
     type: 'date',
     label: 'Founding Date',
     placeholder: 'Enter founding date...'
+  },
+  logo: {
+    tgsField: 'profileInfos.logo',
+    type: 'text',
+    label: 'Company Logo',
+    placeholder: 'Upload your company logo...',
+    description: 'Upload a PNG, or SVG file (max 5MB)'
   }
 };
