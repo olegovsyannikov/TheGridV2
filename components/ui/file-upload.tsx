@@ -99,6 +99,7 @@ export function FileUpload({
           </div>
           {value && (
             <Button
+              type="button"
               variant="link"
               className="p-0 h-auto"
               onClick={() => window.open(value, '_blank')}

@@ -1,5 +1,5 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { auth } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
 // Define allowed file types and max size
@@ -24,7 +24,7 @@ const s3Client = new S3Client({
 export async function POST(request: Request) {
   try {
     // Check authentication
-    const { userId } = await auth();
+    const { userId } = auth();
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
