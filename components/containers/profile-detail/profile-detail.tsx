@@ -85,21 +85,22 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
         profile={profile}
       />
 
-      <section className="space-y-3">
-        <ProfileDataPoint label="Tagline" value={profile.tagLine} />
-        <ProfileDataPoint
-          label="Short Description"
-          value={profile.descriptionShort}
-        />
-        <ProfileDataPoint
-          label="Long Description"
-          value={profile.descriptionLong}
-        />
-      </section>
+      <div className="flex flex-row gap-16 justify-between items-end">
+        <section className="space-y-3">
+          <ProfileDataPoint label="Tagline" value={profile.tagLine} />
+          <ProfileDataPoint
+            label="Short Description"
+            value={profile.descriptionShort}
+          />
+          <ProfileDataPoint
+            label="Long Description"
+            value={profile.descriptionLong}
+          />
+        </section>
+        <ProfileInfo profile={profile} />
+      </div>
 
       <OverviewSection profile={profile} />
-
-      <ProfileInfo profile={profile} />
 
       <ProfileDataSection
         title="Products"

@@ -3,6 +3,7 @@
 import { EditProfileInfoOverlay } from '@/components/thegrid-ui/lenses/profileInfo/components/edit-profileInfo-overlay';
 import { Button } from '@/components/ui/button';
 import { FragmentType, graphql, useFragment } from '@/lib/graphql/generated';
+import { Edit } from 'lucide-react';
 
 export const ProfileInfoFragment = graphql(`
   fragment ProfileInfoFragment on ProfileInfos {
@@ -44,6 +45,7 @@ export const ProfileInfo = ({
       lensData={profileData}
       triggerNode={
         <Button size="lg" className="ml-auto">
+          <Edit className="mr-2 h-4 w-4" />
           Edit Profile Info
         </Button>
       }
