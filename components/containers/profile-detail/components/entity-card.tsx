@@ -4,9 +4,12 @@ import {
   extractUrls,
   UrlTypeIconLinks
 } from '@/components/containers/url-type-icon/url-type-icon-list';
+import { EditEntityOverlay } from '@/components/thegrid-ui/lenses/entity';
+import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { FragmentType, graphql, useFragment } from '@/lib/graphql/generated';
+import { Edit } from 'lucide-react';
 import { ProfileDataCard, ProfileDataCardProps } from './profile-data-card';
 
 export const EntityFieldsFragment = graphql(`
@@ -66,6 +69,14 @@ export const EntityCard = ({
               <UrlTypeIconLinks urls={[extractUrls(entity.urls)]} />
             </>
           )}
+          <EditEntityOverlay
+            lensData={entity}
+            triggerNode={
+              <Button variant="ghost" size="icon" className="ml-auto">
+                <Edit className="h-4 w-4" />
+              </Button>
+            }
+          />
         </div>
       }
       dataPoints={[

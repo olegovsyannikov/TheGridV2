@@ -1,6 +1,8 @@
 'use client';
 
-import { CreateProductOverlay } from '@/components/thegrid-ui/overlays/create-product-overlay';
+import { CreateProductOverlay } from '@/components/thegrid-ui/lenses';
+import { CreateAssetOverlay } from '@/components/thegrid-ui/lenses/asset';
+import { CreateEntityOverlay } from '@/components/thegrid-ui/lenses/entity';
 import { Button } from '@/components/ui/button';
 import { execute } from '@/lib/graphql/execute';
 import { graphql } from '@/lib/graphql/generated';
@@ -13,6 +15,7 @@ import { ProductCard } from './components/product-card';
 import { ProfileDataPoint } from './components/profile-data-point';
 import { ProfileDataSection } from './components/profile-data-section';
 import { ProfileHeading } from './components/profile-heading';
+import { ProfileInfo } from './components/profile-info';
 import ProfileLoading from './components/profile-loading';
 import ProfileNotFound from './components/profile-not-found';
 
@@ -22,6 +25,7 @@ export const ProfileDetailQuery = graphql(`
       tagLine
       descriptionShort
       descriptionLong
+      ...ProfileInfoFragment
       ...ProfileFragment
       ...ProfileHeadingFragment
       root {
@@ -82,17 +86,20 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
         profile={profile}
       />
 
-      <section className="space-y-3">
-        <ProfileDataPoint label="Tagline" value={profile.tagLine} />
-        <ProfileDataPoint
-          label="Short Description"
-          value={profile.descriptionShort}
-        />
-        <ProfileDataPoint
-          label="Long Description"
-          value={profile.descriptionLong}
-        />
-      </section>
+      <div className="flex flex-row gap-16 justify-between items-end">
+        <section className="space-y-3">
+          <ProfileDataPoint label="Tagline" value={profile.tagLine} />
+          <ProfileDataPoint
+            label="Short Description"
+            value={profile.descriptionShort}
+          />
+          <ProfileDataPoint
+            label="Long Description"
+            value={profile.descriptionLong}
+          />
+        </section>
+        <ProfileInfo profile={profile} />
+      </div>
 
       <OverviewSection profile={profile} />
 
@@ -129,6 +136,16 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
             profile.root?.assets?.map(asset => (
               <AssetCard key={asset.id} asset={asset} />
             ))}
+          <div className="flex h-full min-h-[200px] items-center justify-center rounded-xl border-2 border-dashed">
+            <CreateAssetOverlay
+              triggerNode={
+                <Button variant="ghost" className="h-20 w-20" size="icon">
+                  <Plus className="h-10 w-10" />
+                </Button>
+              }
+              rootId={metadata?.rootId}
+            />
+          </div>
         </div>
       </ProfileDataSection>
 
@@ -137,11 +154,21 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
         title="Entities"
       >
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {!Boolean(profile.root?.entities?.length) && <p>No entities found</p>}
           {Boolean(profile.root?.entities?.length) &&
             profile.root?.entities?.map(asset => (
               <EntityCard key={asset.id} entity={asset} />
-            ))}
+            ))
+          }
+          <div className="flex h-full min-h-[200px] items-center justify-center rounded-xl border-2 border-dashed">
+            <CreateEntityOverlay
+              triggerNode={
+                <Button variant="ghost" className="h-20 w-20" size="icon">
+                  <Plus className="h-10 w-10" />
+                </Button>
+              }
+              rootId={metadata?.rootId}
+            />
+          </div>
         </div>
       </ProfileDataSection>
     </div>

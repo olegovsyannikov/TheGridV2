@@ -4,7 +4,7 @@ import {
   extractUrls,
   UrlTypeIconLinks
 } from '@/components/containers/url-type-icon/url-type-icon-list';
-import { EditProductOverlay } from '@/components/thegrid-ui/overlays/edit-product-overlay';
+import { EditProductOverlay } from '@/components/thegrid-ui/lenses';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
@@ -134,7 +134,7 @@ export const ProductCard = ({
           )}
           <div className="ml-auto">
             <EditProductOverlay
-              product={product}
+              lensData={product}
               triggerNode={
                 <Button
                   variant="ghost"

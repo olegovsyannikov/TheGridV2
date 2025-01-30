@@ -1,23 +1,19 @@
 'use client';
 
 import { ControlledOverlay } from '@/components/ui/controlled-overlay';
-import { CreateProductForm } from '../forms/product-form/create-product-form';
+import { CreateLensOverlayProps } from '../../base/types';
+import { CreateAssetForm } from './create-asset-form';
 
-type CreateProductOverlayProps = {
-  rootId?: string;
-  triggerNode?: React.ReactNode;
-};
-
-export function CreateProductOverlay({
+export function CreateAssetOverlay({
   rootId,
   triggerNode
-}: CreateProductOverlayProps) {
+}: CreateLensOverlayProps) {
   return (
     <ControlledOverlay
-      title="Create product"
+      title="Create Asset"
       triggerNode={triggerNode}
       render={({ closeDialog }) => (
-        <CreateProductForm
+        <CreateAssetForm
           rootId={rootId}
           onSuccess={closeDialog}
           onCancel={closeDialog}

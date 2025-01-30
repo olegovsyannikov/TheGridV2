@@ -65,7 +65,7 @@ function ClerkContextProvider({ children }: { children: ReactNode }) {
 
   const organizationMetadata = organization ? {
     id: organization.id,
-    rootId: (organization.publicMetadata?.root_id as string) ?? '',
+    rootId: (organization.publicMetadata?.rootId as string) ?? '',
     slug: typeof organization.publicMetadata?.slug === 'string'
       ? organization.publicMetadata.slug
       : 'default',
