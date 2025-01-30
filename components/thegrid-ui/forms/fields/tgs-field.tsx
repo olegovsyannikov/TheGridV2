@@ -61,6 +61,7 @@ export function TgsField({
   const isText = !isEnum && !isDate && !isTextArea && !isToggle && !isImage;
 
   if (tgsData.isDataValid === true) {
+
     return (
       <>
         {isEnum && (
@@ -79,11 +80,13 @@ export function TgsField({
                   onChange={field.onChange}
                   value={field.value}
                   error={fieldState.error?.message}
-                  options={tgsData.possible_values.map(value => ({
-                    id: value.id,
-                    label: value.name,
-                    value: value.id
-                  }))}
+                  options={tgsData.possible_values
+                    .map(value => ({
+                      id: value.id,
+                      label: value.name,
+                      value: value.id
+                    }))
+                    .sort((a, b) => a.label.localeCompare(b.label))}
                 />
               </FieldWrapper>
             )}
