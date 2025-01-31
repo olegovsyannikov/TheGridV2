@@ -131,7 +131,6 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
         title="Assets"
       >
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {!Boolean(profile.root?.assets?.length) && <p>No assets found</p>}
           {Boolean(profile.root?.assets?.length) &&
             profile.root?.assets?.map(asset => (
               <AssetCard key={asset.id} asset={asset} />
