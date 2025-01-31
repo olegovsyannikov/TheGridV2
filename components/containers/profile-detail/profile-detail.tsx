@@ -9,13 +9,13 @@ import { graphql } from '@/lib/graphql/generated';
 import { useQuery } from '@tanstack/react-query';
 import { Banknote, Building2, Package, Plus } from 'lucide-react';
 import { AssetCard } from './components/asset-card';
+import { EditProfileInfo } from './components/edit-profile-info';
 import { EntityCard } from './components/entity-card';
 import { OverviewSection } from './components/overview-section';
 import { ProductCard } from './components/product-card';
 import { ProfileDataPoint } from './components/profile-data-point';
 import { ProfileDataSection } from './components/profile-data-section';
 import { ProfileHeading } from './components/profile-heading';
-import { ProfileInfo } from './components/profile-info';
 import ProfileLoading from './components/profile-loading';
 import ProfileNotFound from './components/profile-not-found';
 
@@ -98,7 +98,7 @@ export const ProfileDetail = ({ profileId, metadata }: ProfileDetailProps) => {
             value={profile.descriptionLong}
           />
         </section>
-        <ProfileInfo profile={profile} />
+        <EditProfileInfo profile={profile} />
       </div>
 
       <OverviewSection profile={profile} />

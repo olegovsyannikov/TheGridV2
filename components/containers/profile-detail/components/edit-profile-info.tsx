@@ -31,13 +31,13 @@ export const ProfileInfoFragment = graphql(`
   }
 `);
 
-export type ProfileInfoProps = {
+export type EditProfileInfoProps = {
   profile: FragmentType<typeof ProfileInfoFragment>;
 };
 
-export const ProfileInfo = ({
+export const EditProfileInfo = ({
   profile,
-}: ProfileInfoProps) => {
+}: EditProfileInfoProps) => {
   const profileData = useFragment(ProfileInfoFragment, profile);
 
   return (
