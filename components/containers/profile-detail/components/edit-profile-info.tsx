@@ -7,6 +7,7 @@ import { Edit } from 'lucide-react';
 
 export const ProfileInfoFragment = graphql(`
   fragment ProfileInfoFragment on ProfileInfos {
+    rootId
     id
     name
     tagLine

@@ -12,6 +12,7 @@ export function EditEntityForm({
 }: EditLensFormProps) {
   const { form, isPending, error, onSubmit } = useEntityForm({
     mode: 'edit',
+    rootId: lensData?.rootId || '',
     lensData,
     onSuccess,
     onCancel

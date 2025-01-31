@@ -3231,15 +3231,15 @@ export type __EnumValue = {
 
 export type AssetFieldsFragmentFragment = { __typename?: 'Assets', ticker: string, rootId: string, name: string, id: string, icon: string, description: string, assetTypeId?: string | null, assetStatusId?: string | null, assetType?: { __typename?: 'AssetTypes', definition: string, id: string, name: string } | null, assetStatus?: { __typename?: 'AssetStatuses', name: string, id: string, definition: string } | null, assetDeployments?: Array<{ __typename?: 'AssetDeployments', id: string, deploymentId: string, assetId: string, smartContractDeployment?: { __typename?: 'SmartContractDeployments', id: string, deployedOnProduct?: { __typename?: 'Products', id: string, name: string, root?: { __typename?: 'Roots', slug: string } | null } | null, assetStandard?: { __typename?: 'AssetStandards', id: string } | null, smartContracts?: Array<{ __typename?: 'SmartContracts', name: string, id: string, deploymentId?: string | null, deploymentDate?: string | null, address: string }> | null, deploymentType?: { __typename?: 'DeploymentTypes', name: string, id: string, definition: string } | null } | null }> | null, urls?: Array<{ __typename?: 'AssetUrls', url: string, urlType?: { __typename?: 'UrlTypes', name: string, id: string, definition: string } | null }> | null } & { ' $fragmentName'?: 'AssetFieldsFragmentFragment' };
 
-export type EntityFieldsFragmentFragment = { __typename?: 'Entities', name: string, tradeName: string, taxIdentificationNumber: string, localRegistrationNumber: string, leiNumber: string, id: string, dateOfIncorporation?: string | null, address: string, entityType?: { __typename?: 'EntityTypes', name: string, id: string, definition: string } | null, country?: { __typename?: 'Countries', name: string, id: string, code: string } | null, urls?: Array<{ __typename?: 'EntityUrls', url: string, urlType?: { __typename?: 'UrlTypes', name: string, id: string, definition: string } | null }> | null } & { ' $fragmentName'?: 'EntityFieldsFragmentFragment' };
+export type ProfileInfoFragmentFragment = { __typename?: 'ProfileInfos', rootId: string, id: string, name: string, tagLine: string, descriptionShort: string, descriptionLong: string, foundingDate?: string | null, profileType?: { __typename?: 'ProfileTypes', id: string, name: string, definition: string } | null, profileStatus?: { __typename?: 'ProfileStatuses', id: string, name: string, definition: string } | null, profileSector?: { __typename?: 'ProfileSectors', id: string, name: string, definition: string } | null } & { ' $fragmentName'?: 'ProfileInfoFragmentFragment' };
+
+export type EntityFieldsFragmentFragment = { __typename?: 'Entities', rootId: string, name: string, tradeName: string, taxIdentificationNumber: string, localRegistrationNumber: string, leiNumber: string, id: string, dateOfIncorporation?: string | null, address: string, entityType?: { __typename?: 'EntityTypes', name: string, id: string, definition: string } | null, country?: { __typename?: 'Countries', name: string, id: string, code: string } | null, urls?: Array<{ __typename?: 'EntityUrls', url: string, urlType?: { __typename?: 'UrlTypes', name: string, id: string, definition: string } | null }> | null } & { ' $fragmentName'?: 'EntityFieldsFragmentFragment' };
 
 export type ProfileFragmentFragment = { __typename?: 'ProfileInfos', profileSector?: { __typename?: 'ProfileSectors', name: string } | null, profileType?: { __typename?: 'ProfileTypes', name: string } | null, root?: { __typename?: 'Roots', assets?: Array<{ __typename?: 'Assets', ticker: string }> | null, profileTags?: Array<{ __typename?: 'ProfileTags', tag?: { __typename?: 'Tags', name: string, id: string } | null }> | null } | null, profileStatus?: { __typename?: 'ProfileStatuses', name: string, id: string } | null, mainProduct?: { __typename?: 'Roots', products?: Array<{ __typename?: 'Products', productType?: { __typename?: 'ProductTypes', name: string } | null }> | null } | null } & { ' $fragmentName'?: 'ProfileFragmentFragment' };
 
 export type ProductFieldsFragmentFragment = { __typename?: 'Products', rootId: string, productTypeId?: string | null, productStatusId?: string | null, name: string, launchDate?: string | null, isMainProduct?: number | null, id: string, description: string, productType?: { __typename?: 'ProductTypes', name: string, id: string, definition: string } | null, productStatus?: { __typename?: 'ProductStatuses', name: string, id: string, definition: string } | null, productDeployments?: Array<{ __typename?: 'ProductDeployments', smartContractDeployment?: { __typename?: 'SmartContractDeployments', isOfStandardId?: string | null, id: string, deployedOnProduct?: { __typename?: 'Products', id: string, name: string, root?: { __typename?: 'Roots', slug: string } | null } | null, assetStandard?: { __typename?: 'AssetStandards', id: string } | null, deploymentType?: { __typename?: 'DeploymentTypes', name: string } | null, smartContracts?: Array<{ __typename?: 'SmartContracts', name: string, id: string, deploymentDate?: string | null, address: string, deploymentId?: string | null }> | null } | null }> | null, supportsProducts?: Array<{ __typename?: 'SupportsProducts', supportsProduct?: { __typename?: 'Products', name: string, id: string, root?: { __typename?: 'Roots', slug: string } | null } | null }> | null, urls?: Array<{ __typename?: 'ProductUrls', url: string, urlType?: { __typename?: 'UrlTypes', name: string, id: string, definition: string } | null }> | null, productAssetRelationships?: Array<{ __typename?: 'ProductAssetRelationships', assetId: string, asset?: { __typename?: 'Assets', name: string, id: string, assetType?: { __typename?: 'AssetTypes', name: string } | null, root?: { __typename?: 'Roots', slug: string } | null } | null, assetSupportType?: { __typename?: 'AssetSupportTypes', name: string } | null, product?: { __typename?: 'Products', name: string, id: string, description: string } | null }> | null } & { ' $fragmentName'?: 'ProductFieldsFragmentFragment' };
 
 export type ProfileHeadingFragmentFragment = { __typename?: 'ProfileInfos', logo?: string | null, name: string, urls?: Array<{ __typename?: 'ProfileInfoUrls', url: string, urlType?: { __typename?: 'UrlTypes', name: string } | null }> | null, root?: { __typename?: 'Roots', socials?: Array<{ __typename?: 'Socials', name: string, socialType?: { __typename?: 'SocialTypes', name: string } | null, urls?: Array<{ __typename?: 'SocialUrls', url?: string | null }> | null }> | null } | null } & { ' $fragmentName'?: 'ProfileHeadingFragmentFragment' };
-
-export type ProfileInfoFragmentFragment = { __typename?: 'ProfileInfos', id: string, name: string, tagLine: string, descriptionShort: string, descriptionLong: string, foundingDate?: string | null, profileType?: { __typename?: 'ProfileTypes', id: string, name: string, definition: string } | null, profileStatus?: { __typename?: 'ProfileStatuses', id: string, name: string, definition: string } | null, profileSector?: { __typename?: 'ProfileSectors', id: string, name: string, definition: string } | null } & { ' $fragmentName'?: 'ProfileInfoFragmentFragment' };
 
 export type GetProfileDataQueryVariables = Exact<{
   where?: InputMaybe<ProfileInfosBoolExp>;
@@ -3417,8 +3417,35 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+export const ProfileInfoFragmentFragmentDoc = new TypedDocumentString(`
+    fragment ProfileInfoFragment on ProfileInfos {
+  rootId
+  id
+  name
+  tagLine
+  descriptionShort
+  descriptionLong
+  foundingDate
+  profileType {
+    id
+    name
+    definition
+  }
+  profileStatus {
+    id
+    name
+    definition
+  }
+  profileSector {
+    id
+    name
+    definition
+  }
+}
+    `, {"fragmentName":"ProfileInfoFragment"}) as unknown as TypedDocumentString<ProfileInfoFragmentFragment, unknown>;
 export const EntityFieldsFragmentFragmentDoc = new TypedDocumentString(`
     fragment EntityFieldsFragment on Entities {
+  rootId
   name
   tradeName
   taxIdentificationNumber
@@ -3504,31 +3531,6 @@ export const ProfileHeadingFragmentFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"ProfileHeadingFragment"}) as unknown as TypedDocumentString<ProfileHeadingFragmentFragment, unknown>;
-export const ProfileInfoFragmentFragmentDoc = new TypedDocumentString(`
-    fragment ProfileInfoFragment on ProfileInfos {
-  id
-  name
-  tagLine
-  descriptionShort
-  descriptionLong
-  foundingDate
-  profileType {
-    id
-    name
-    definition
-  }
-  profileStatus {
-    id
-    name
-    definition
-  }
-  profileSector {
-    id
-    name
-    definition
-  }
-}
-    `, {"fragmentName":"ProfileInfoFragment"}) as unknown as TypedDocumentString<ProfileInfoFragmentFragment, unknown>;
 export const ProductFieldsFragmentFragmentDoc = new TypedDocumentString(`
     fragment ProductFieldsFragment on Products {
   rootId
@@ -3975,7 +3977,32 @@ export const GetProfileDataDocument = new TypedDocumentString(`
     }
   }
 }
+fragment ProfileInfoFragment on ProfileInfos {
+  rootId
+  id
+  name
+  tagLine
+  descriptionShort
+  descriptionLong
+  foundingDate
+  profileType {
+    id
+    name
+    definition
+  }
+  profileStatus {
+    id
+    name
+    definition
+  }
+  profileSector {
+    id
+    name
+    definition
+  }
+}
 fragment EntityFieldsFragment on Entities {
+  rootId
   name
   tradeName
   taxIdentificationNumber
@@ -4138,29 +4165,6 @@ fragment ProfileHeadingFragment on ProfileInfos {
         url
       }
     }
-  }
-}
-fragment ProfileInfoFragment on ProfileInfos {
-  id
-  name
-  tagLine
-  descriptionShort
-  descriptionLong
-  foundingDate
-  profileType {
-    id
-    name
-    definition
-  }
-  profileStatus {
-    id
-    name
-    definition
-  }
-  profileSector {
-    id
-    name
-    definition
   }
 }`) as unknown as TypedDocumentString<GetProfileDataQuery, GetProfileDataQueryVariables>;
 export const SearchProfilesDocument = new TypedDocumentString(`

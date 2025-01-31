@@ -140,7 +140,6 @@ export const ProductCard = ({
                   variant="ghost"
                   size="icon"
                   type="button"
-                  onClick={() => console.log('Edit button clicked')}
                 >
                   <Edit className="h-4 w-4" />
                 </Button>

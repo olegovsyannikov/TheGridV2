@@ -11,7 +11,7 @@ export function useAssetForm(props: UseLensFormProps) {
 
   const config = {
     tableName: 'assets',
-    queryKey: ['assets'],
+    queryKey: ['profile', props.rootId],
     schema: assetFields,
     zodSchema: assetSchema,
     createMessage: 'The asset has been created successfully.',

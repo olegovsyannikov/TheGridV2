@@ -37,7 +37,7 @@ export default function Profile() {
     <div>
       <div className="h-10" />
       <ProfileDetail
-        profileId={organizationMetadata.slug}
+        profileId={organizationMetadata.rootId}
         metadata={organizationMetadata}
       />
     </div>

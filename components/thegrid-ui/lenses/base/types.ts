@@ -104,11 +104,12 @@ interface BaseFormHookProps {
 
 interface CreateFormHookProps extends BaseFormHookProps {
   mode: 'create';
-  rootId?: string;
+  rootId: string;
 }
 
 interface EditFormHookProps extends BaseFormHookProps {
   mode: 'edit';
+  rootId: string;
   lensData?: EditLensFormProps['lensData'];
 }
 

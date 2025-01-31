@@ -11,7 +11,7 @@ export function useProductForm(props: UseLensFormProps) {
 
   const config = {
     tableName: 'products',
-    queryKey: ['products'],
+    queryKey: ['profile', props.rootId],
     schema: productFields,
     zodSchema: productSchema,
     createMessage: 'The product has been created successfully.',

@@ -12,6 +12,7 @@ export function EditProfileInfoForm({
 }: EditLensFormProps) {
   const { form, isPending, error, onSubmit } = useProfileInfoForm({
     mode: 'edit',
+    rootId: lensData?.rootId || '',
     lensData,
     onSuccess,
     onCancel

@@ -12,7 +12,7 @@ export function CreateAssetForm({
 }: CreateLensFormProps) {
   const { form, isPending, error, onSubmit } = useAssetForm({
     mode: 'create',
-    rootId,
+    rootId: rootId || '',
     onSuccess,
     onCancel
   });

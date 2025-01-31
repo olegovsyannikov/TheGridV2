@@ -12,6 +12,7 @@ export function EditAssetForm({
 }: EditLensFormProps) {
   const { form, isPending, error, onSubmit } = useAssetForm({
     mode: 'edit',
+    rootId: lensData?.rootId || '',
     lensData,
     onSuccess,
     onCancel

@@ -90,9 +90,15 @@ export function useLensForm<
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: config.queryKey });
+      console.log('Invalidating queries with key:', config.queryKey);
+      queryClient.invalidateQueries({
+        queryKey: config.queryKey,
+        exact: true,
+        refetchType: 'all'
+      });
+
       toast({
-        title: mode === 'create' ? 'Created' : 'Updated',
+        title: mode === 'create' ? 'Created!' : 'Updated!',
         description:
           mode === 'create' ? config.createMessage : config.updateMessage
       });

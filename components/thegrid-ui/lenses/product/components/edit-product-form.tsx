@@ -12,6 +12,7 @@ export function EditProductForm({
 }: EditLensFormProps) {
   const { form, isPending, error, onSubmit } = useProductForm({
     mode: 'edit',
+    rootId: lensData?.rootId || '',
     lensData,
     onSuccess,
     onCancel

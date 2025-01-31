@@ -12,7 +12,7 @@ export function CreateProductForm({
 }: CreateLensFormProps) {
   const { form, isPending, error, onSubmit } = useProductForm({
     mode: 'create',
-    rootId,
+    rootId: rootId || '',
     onSuccess,
     onCancel
   });

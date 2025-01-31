@@ -11,7 +11,7 @@ export function useEntityForm(props: UseLensFormProps) {
 
   const config = {
     tableName: 'entities',
-    queryKey: ['entities'],
+    queryKey: ['profile', props.rootId],
     schema: entityFields,
     zodSchema: entitySchema,
     createMessage: 'The entity has been created successfully.',

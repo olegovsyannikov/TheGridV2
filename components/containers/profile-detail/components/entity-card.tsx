@@ -14,6 +14,7 @@ import { ProfileDataCard, ProfileDataCardProps } from './profile-data-card';
 
 export const EntityFieldsFragment = graphql(`
   fragment EntityFieldsFragment on Entities {
+    rootId
     name
     tradeName
     taxIdentificationNumber

@@ -11,7 +11,7 @@ export function useProfileInfoForm(props: UseLensFormProps) {
 
   const config = {
     tableName: 'profileInfos',
-    queryKey: ['profileInfos'],
+    queryKey: ['profile', props.rootId],
     schema: profileInfoFields,
     zodSchema: profileInfoSchema,
     createMessage: 'The profile has been created successfully.',

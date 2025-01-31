@@ -12,7 +12,7 @@ export function CreateEntityForm({
 }: CreateLensFormProps) {
   const { form, isPending, error, onSubmit } = useEntityForm({
     mode: 'create',
-    rootId,
+    rootId: rootId || '',
     onSuccess,
     onCancel
   });
