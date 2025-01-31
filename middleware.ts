@@ -15,6 +15,7 @@ export const config = {
      * - public files
      */
     '/((?!_next/static|_next/image|favicon.ico)(?!.*\\.).*)',
+    '/api/upload',
     '/(api|trpc)(.*)'
   ]
 };

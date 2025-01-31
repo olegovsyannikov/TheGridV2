@@ -21,16 +21,15 @@ const s3Client = new S3Client({
   }
 });
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    // Check authentication
-    const { userId } = getAuth(request);
+    const { userId } = getAuth(req as any);
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Get the file from the request
-    const formData = await request.formData();
+    const formData = await req.formData();
     const file = formData.get('file') as File;
     const path = (formData.get('path') as string) || 'uploads';
 
@@ -71,7 +70,7 @@ export async function POST(request: NextRequest) {
       Body: buffer,
       ContentType: file.type,
       Metadata: {
-        userId, // Track who uploaded the file
+        userId: userId, // Track who uploaded the file
         originalName: file.name
       }
     });
